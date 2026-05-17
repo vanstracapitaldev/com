@@ -6,11 +6,11 @@
     <title>Dashboard - Vanstra Bank</title>
     <meta name="description" content="Your Vanstra Bank dashboard. View balances, transfer money, pay bills, and manage your finances.">
     
-    <!-- Custom Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="bank-ui.css">
+
     <style>
         * {
             box-sizing: border-box;
@@ -1321,7 +1321,7 @@
             width: 10px;
             height: 10px;
         }
-        }
+        
         
         /* Notification Tabs */
         .notification-tabs {
@@ -2338,8 +2338,6 @@
         <div id="accountStatusDisplay">
             <span class="account-status active" id="accountStatusBadge">✓ Active Account</span>
         </div>
-    </section>
-
     </section>
 
     <!-- Quick Actions Header -->
@@ -3608,34 +3606,36 @@
                 localStorage.setItem('userLanguage', 'en');
             }
             
-            document.getElementById('welcomeGreeting').textContent = getTimeBasedGreeting();
-            document.getElementById('usernameDisplay').textContent = ', ' + currentUser.fullName.split(' ')[0];
-            
-            document.getElementById('balanceAmount').textContent = formatBalanceDisplay(currentUser.balance);
-            const availableBalanceEl = document.getElementById('availableBalance');
-            if (availableBalanceEl) {
-                availableBalanceEl.textContent = VanstraBank.formatCurrency(currentUser.balance);
-            }
-            const billAvailableEl = document.getElementById('billAvailableBalance');
-            if (billAvailableEl) {
-                billAvailableEl.textContent = VanstraBank.formatCurrency(currentUser.balance);
-            }
-            document.getElementById('accountNumber').textContent = currentUser.accountNumber;
-            document.getElementById('accountType').textContent = currentUser.accountType;
+            const greetingEl = document.getElementById('welcomeGreeting');
+            if (greetingEl) greetingEl.textContent = getTimeBasedGreeting();
+            const usernameEl = document.getElementById('usernameDisplay');
+            if (usernameEl) usernameEl.textContent = ', ' + currentUser.fullName.split(' ')[0];
 
-            // Update virtual card mini preview name
+            const balanceAmountEl = document.getElementById('balanceAmount');
+            if (balanceAmountEl) balanceAmountEl.textContent = formatBalanceDisplay(currentUser.balance);
+            const availableBalanceEl = document.getElementById('availableBalance');
+            if (availableBalanceEl) availableBalanceEl.textContent = VanstraBank.formatCurrency(currentUser.balance);
+            const billAvailableEl = document.getElementById('billAvailableBalance');
+            if (billAvailableEl) billAvailableEl.textContent = VanstraBank.formatCurrency(currentUser.balance);
+
+            const accNumEl = document.getElementById('accountNumber');
+            if (accNumEl) accNumEl.textContent = currentUser.accountNumber;
+            const accTypeEl = document.getElementById('accountType');
+            if (accTypeEl) accTypeEl.textContent = currentUser.accountType;
+
             const vcMiniName = document.getElementById('vcMiniCardName');
             if (vcMiniName) vcMiniName.textContent = currentUser.fullName.split(' ')[0];
             const qrAccNum = document.getElementById('qrAccountNumber');
             if (qrAccNum) qrAccNum.textContent = currentUser.accountNumber;
-            
+
             const initials = currentUser.fullName.split(' ').map(n => n[0]).join('').toUpperCase();
-            document.getElementById('userInitials').textContent = initials;
-            
+            const initialsEl = document.getElementById('userInitials');
+            if (initialsEl) initialsEl.textContent = initials;
+
             if (currentUser.avatar) {
-                document.getElementById('userAvatarImg').src = currentUser.avatar;
-                document.getElementById('userAvatarImg').style.display = 'block';
-                document.getElementById('userInitials').style.display = 'none';
+                const avatarImg = document.getElementById('userAvatarImg');
+                if (avatarImg) { avatarImg.src = currentUser.avatar; avatarImg.style.display = 'block'; }
+                if (initialsEl) initialsEl.style.display = 'none';
             }
             
             // Update balance timestamp

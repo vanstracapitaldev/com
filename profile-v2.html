@@ -6,14 +6,12 @@
     <title>Profile - Vanstra Bank</title>
     <meta name="description" content="Manage your Vanstra Bank profile and account settings.">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- Custom Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bank-ui.css">
+
     <style>
         * {
             box-sizing: border-box;
@@ -454,27 +452,70 @@
                 margin: 0 auto;
                 box-shadow: 0 0 40px rgba(0,0,0,0.1);
             }
-            
             .bottom-nav {
                 max-width: 480px;
                 left: 50%;
                 transform: translateX(-50%);
             }
         }
+
+        /* Profile header overrides */
+        .app-header { padding: 0 1rem; height: 60px; display: flex; align-items: center; }
+        .profile-header-bar { display: flex; align-items: center; gap: 0.75rem; width: 100%; }
+        .profile-back-btn { background: rgba(255,255,255,.1); border-radius: 10px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; text-decoration: none; }
+        .profile-title { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 1rem; color: white; flex: 1; }
+        .profile-edit-btn { background: rgba(255,255,255,.1); border: none; border-radius: 10px; padding: 0.35rem 0.75rem; color: white; font-size: 0.8125rem; font-weight: 500; cursor: pointer; }
+
+        /* Security section */
+        .security-item { display: flex; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid #F3F4F6; cursor: pointer; transition: background .15s; }
+        .security-item:last-child { border-bottom: none; }
+        .security-item:active { background: #F9FAFB; }
+        .security-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0; }
+
+        /* Toggle switch */
+        .toggle-wrap { display: flex; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid #F3F4F6; }
+        .toggle-wrap:last-child { border-bottom: none; }
+        .toggle-label { flex: 1; }
+        .toggle-title { font-weight: 600; color: #1F2937; font-size: 15px; }
+        .toggle-sub { font-size: 13px; color: #6B7280; margin-top: 2px; }
+        .toggle-switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; inset: 0; background: #D1D5DB; border-radius: 999px; transition: background .2s; cursor: pointer; }
+        .toggle-slider::before { content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%; background: white; top: 3px; left: 3px; transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+        .toggle-switch input:checked + .toggle-slider { background: #041225; }
+        .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+        /* Option list in modals */
+        .option-btn { width: 100%; padding: 0.875rem 1rem; background: #F9FAFB; border-radius: 12px; border: none; display: flex; align-items: center; justify-content: space-between; cursor: pointer; font-family: inherit; margin-bottom: 0.5rem; transition: background .15s; }
+        .option-btn:active { background: #F3F4F6; }
+        .option-left { display: flex; align-items: center; gap: 0.75rem; }
+        .option-symbol { font-size: 1.125rem; width: 28px; text-align: center; }
+        .option-name { font-size: 0.9375rem; font-weight: 500; color: #1F2937; }
+        .check-icon { display: none; color: #10B981; }
+        .check-icon.visible { display: block; }
+        .option-name-danger { color: #EF4444; }
+
+        /* Security modal icon colours */
+        .sec-icon-navy { background: rgba(30,45,107,.08); }
+        .sec-icon-gold { background: rgba(200,154,58,.1); }
+        .sec-icon-green { background: rgba(16,185,129,.1); }
+        .sec-icon-red { background: rgba(239,68,68,.08); }
+        .sec-2fa-label { color: #10B981; font-weight: 500; }
+        .sec-item-last { border-bottom: none; }
+
+        /* Form error messages */
+        .form-error { color: #EF4444; font-size: 0.8125rem; margin: -0.5rem 0 1rem; display: none; }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header class="app-header">
-        <div class="header-content">
-            <a href="dashboard.html" class="back-btn">
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-                Back
+        <div class="profile-header-bar">
+            <a href="dashboard.html" class="profile-back-btn" title="Back to Dashboard" aria-label="Back to Dashboard">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             </a>
-            <span class="header-title">Profile</span>
-            <div class="header-spacer"></div>
+            <span class="profile-title">Profile</span>
+            <button type="button" class="profile-edit-btn" onclick="openEditModal()">Edit</button>
         </div>
     </header>
 
@@ -611,7 +652,7 @@
             </svg>
         </div>
         
-        <div class="menu-item" onclick="showToast('Security settings coming soon')">
+        <div class="menu-item" onclick="openSecurityModal()">
             <div class="menu-icon">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
@@ -619,26 +660,58 @@
             </div>
             <div class="menu-content">
                 <div class="menu-title">Security</div>
-                <div class="menu-subtitle">Password, PIN, biometrics</div>
+                <div class="menu-subtitle">Password, PIN, 2FA</div>
             </div>
             <svg class="menu-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
             </svg>
         </div>
-        
-        <div class="menu-item" onclick="showToast('Notifications settings coming soon')">
-            <div class="menu-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                </svg>
+    </div>
+
+    <!-- Notifications Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Notifications</h2>
+        </div>
+        <div class="toggle-wrap">
+            <div class="toggle-label">
+                <div class="toggle-title">Push Notifications</div>
+                <div class="toggle-sub">Alerts for transactions and updates</div>
             </div>
-            <div class="menu-content">
-                <div class="menu-title">Notifications</div>
-                <div class="menu-subtitle">Push, email, SMS alerts</div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="togglePush" title="Toggle push notifications" aria-label="Push notifications" checked onchange="saveNotifPref('push', this.checked)">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        <div class="toggle-wrap">
+            <div class="toggle-label">
+                <div class="toggle-title">Email Alerts</div>
+                <div class="toggle-sub">Statements and security notices</div>
             </div>
-            <svg class="menu-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-            </svg>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleEmail" title="Toggle email alerts" aria-label="Email alerts" checked onchange="saveNotifPref('email', this.checked)">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        <div class="toggle-wrap">
+            <div class="toggle-label">
+                <div class="toggle-title">SMS Alerts</div>
+                <div class="toggle-sub">OTP and transaction confirmations</div>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleSms" title="Toggle SMS alerts" aria-label="SMS alerts" onchange="saveNotifPref('sms', this.checked)">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        <div class="toggle-wrap">
+            <div class="toggle-label">
+                <div class="toggle-title">Marketing</div>
+                <div class="toggle-sub">Offers, promotions, and news</div>
+            </div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="toggleMarketing" title="Toggle marketing notifications" aria-label="Marketing notifications" onchange="saveNotifPref('marketing', this.checked)">
+                <span class="toggle-slider"></span>
+            </label>
         </div>
     </div>
 
@@ -655,24 +728,138 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <a href="dashboard.html" class="nav-item">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-            </svg>
+            <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
             <span>Home</span>
         </a>
-        <a href="dashboard.html" class="nav-item">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
-            </svg>
-            <span>Transfer</span>
+        <a href="cards-v2.html" class="nav-item">
+            <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+            <span>Cards</span>
+        </a>
+        <a href="statement.html" class="nav-item">
+            <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span>Statement</span>
+        </a>
+        <a href="wealth-v2.html" class="nav-item">
+            <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+            <span>Wealth</span>
         </a>
         <a href="profile-v2.html" class="nav-item active">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
+            <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
             <span>Profile</span>
         </a>
     </nav>
+
+    <!-- Security Modal -->
+    <div id="securityModal" class="modal-overlay" onclick="closeModalOnOverlay(event,'securityModal')">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <h3 class="modal-title">Security</h3>
+                <button type="button" class="modal-close" onclick="closeModal('securityModal')">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="security-item" onclick="closeModal('securityModal');openChangePinModal()">
+                <div class="security-icon sec-icon-navy">
+                    <svg width="20" height="20" fill="none" stroke="#1E2D6B" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </div>
+                <div class="menu-content">
+                    <div class="menu-title">Change Transaction PIN</div>
+                    <div class="menu-subtitle">Update your 4-digit PIN</div>
+                </div>
+                <svg class="menu-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div class="security-item" onclick="closeModal('securityModal');openChangePasswordModal()">
+                <div class="security-icon sec-icon-gold">
+                    <svg width="20" height="20" fill="none" stroke="#C89A3A" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                </div>
+                <div class="menu-content">
+                    <div class="menu-title">Change Password</div>
+                    <div class="menu-subtitle">Update your login password</div>
+                </div>
+                <svg class="menu-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+            <div class="security-item" onclick="showToast('Two-factor authentication is always enabled for your protection');closeModal('securityModal')">
+                <div class="security-icon sec-icon-green">
+                    <svg width="20" height="20" fill="none" stroke="#10B981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <div class="menu-content">
+                    <div class="menu-title">Two-Factor Auth</div>
+                    <div class="menu-subtitle sec-2fa-label">Enabled</div>
+                </div>
+                <svg width="20" height="20" fill="none" stroke="#10B981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <div class="security-item sec-item-last" onclick="showLoginActivity();closeModal('securityModal')">
+                <div class="security-icon sec-icon-red">
+                    <svg width="20" height="20" fill="none" stroke="#EF4444" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                </div>
+                <div class="menu-content">
+                    <div class="menu-title">Login Activity</div>
+                    <div class="menu-subtitle">View recent sign-ins</div>
+                </div>
+                <svg class="menu-arrow" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change PIN Modal -->
+    <div id="changePinModal" class="modal-overlay" onclick="closeModalOnOverlay(event,'changePinModal')">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <h3 class="modal-title">Change Transaction PIN</h3>
+                <button type="button" class="modal-close" onclick="closeModal('changePinModal')">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="changePinForm" onsubmit="handleChangePIN(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="currentPin">Current PIN</label>
+                        <input type="password" id="currentPin" class="form-input" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="newPin">New PIN</label>
+                        <input type="password" id="newPin" class="form-input" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="••••" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="confirmPin">Confirm New PIN</label>
+                        <input type="password" id="confirmPin" class="form-input" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="••••" required>
+                    </div>
+                    <p id="pinError" class="form-error"></p>
+                    <button type="submit" class="btn-primary">Update PIN</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal-overlay" onclick="closeModalOnOverlay(event,'changePasswordModal')">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <h3 class="modal-title">Change Password</h3>
+                <button type="button" class="modal-close" onclick="closeModal('changePasswordModal')">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm" onsubmit="handleChangePassword(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" class="form-input" placeholder="Enter current password" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" class="form-input" placeholder="Min. 8 characters" minlength="8" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" class="form-input" placeholder="Repeat new password" required>
+                    </div>
+                    <p id="pwError" class="form-error"></p>
+                    <button type="submit" class="btn-primary">Update Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Edit Profile Modal -->
     <div id="editModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'editModal')">
@@ -717,22 +904,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="space-y-3">
-                    <button onclick="document.getElementById('avatarInput').click()" class="w-full p-4 bg-gray-50 rounded-xl flex items-center gap-3">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        <span class="font-medium">Upload Photo</span>
-                    </button>
-                    <input type="file" id="avatarInput" class="hidden" accept="image/*" onchange="handleAvatarUpload(event)">
-                    
-                    <button onclick="removeAvatar()" class="w-full p-4 bg-red-50 rounded-xl flex items-center gap-3">
-                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                        </svg>
-                        <span class="font-medium text-red-600">Remove Photo</span>
-                    </button>
-                </div>
+                <button type="button" class="option-btn" onclick="document.getElementById('avatarInput').click()">
+                    <div class="option-left">
+                        <svg width="22" height="22" fill="none" stroke="#6B7280" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span class="option-name">Upload Photo</span>
+                    </div>
+                </button>
+                <input type="file" id="avatarInput" accept="image/*" hidden onchange="handleAvatarUpload(event)">
+                <button type="button" class="option-btn" onclick="removeAvatar()">
+                    <div class="option-left">
+                        <svg width="22" height="22" fill="none" stroke="#EF4444" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        <span class="option-name option-name-danger">Remove Photo</span>
+                    </div>
+                </button>
             </div>
         </div>
     </div>
@@ -749,140 +933,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="space-y-2">
-                    <button onclick="selectCurrency('EUR')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">€</span>
-                            <span class="font-medium">Euro (EUR)</span>
-                        </div>
-                        <div id="eurCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('USD')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">$</span>
-                            <span class="font-medium">US Dollar (USD)</span>
-                        </div>
-                        <div id="usdCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('GBP')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">£</span>
-                            <span class="font-medium">British Pound (GBP)</span>
-                        </div>
-                        <div id="gbpCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('AUD')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">A$</span>
-                            <span class="font-medium">Australian Dollar (AUD)</span>
-                        </div>
-                        <div id="audCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('CAD')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">C$</span>
-                            <span class="font-medium">Canadian Dollar (CAD)</span>
-                        </div>
-                        <div id="cadCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('JPY')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">¥</span>
-                            <span class="font-medium">Japanese Yen (JPY)</span>
-                        </div>
-                        <div id="jpyCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('CHF')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">Fr</span>
-                            <span class="font-medium">Swiss Franc (CHF)</span>
-                        </div>
-                        <div id="chfCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('CNY')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">¥</span>
-                            <span class="font-medium">Chinese Yuan (CNY)</span>
-                        </div>
-                        <div id="cnyCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('INR')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">₹</span>
-                            <span class="font-medium">Indian Rupee (INR)</span>
-                        </div>
-                        <div id="inrCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('BRL')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">R$</span>
-                            <span class="font-medium">Brazilian Real (BRL)</span>
-                        </div>
-                        <div id="brlCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('SGD')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">S$</span>
-                            <span class="font-medium">Singapore Dollar (SGD)</span>
-                        </div>
-                        <div id="sgdCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectCurrency('ZAR')" class="currency-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">R</span>
-                            <span class="font-medium">South African Rand (ZAR)</span>
-                        </div>
-                        <div id="zarCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                </div>
+                <button type="button" class="option-btn" onclick="selectCurrency('EUR')"><div class="option-left"><span class="option-symbol">€</span><span class="option-name">Euro (EUR)</span></div><svg id="eurCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectCurrency('USD')"><div class="option-left"><span class="option-symbol">$</span><span class="option-name">US Dollar (USD)</span></div><svg id="usdCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectCurrency('GBP')"><div class="option-left"><span class="option-symbol">£</span><span class="option-name">British Pound (GBP)</span></div><svg id="gbpCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectCurrency('AUD')"><div class="option-left"><span class="option-symbol">A$</span><span class="option-name">Australian Dollar (AUD)</span></div><svg id="audCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectCurrency('CAD')"><div class="option-left"><span class="option-symbol">C$</span><span class="option-name">Canadian Dollar (CAD)</span></div><svg id="cadCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectCurrency('JPY')"><div class="option-left"><span class="option-symbol">¥</span><span class="option-name">Japanese Yen (JPY)</span></div><svg id="jpyCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectCurrency('CHF')"><div class="option-left"><span class="option-symbol">Fr</span><span class="option-name">Swiss Franc (CHF)</span></div><svg id="chfCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectCurrency('INR')"><div class="option-left"><span class="option-symbol">₹</span><span class="option-name">Indian Rupee (INR)</span></div><svg id="inrCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectCurrency('SGD')"><div class="option-left"><span class="option-symbol">S$</span><span class="option-name">Singapore Dollar (SGD)</span></div><svg id="sgdCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
             </div>
         </div>
     </div>
@@ -899,151 +958,16 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="space-y-2">
-                    <button onclick="selectLanguage('en')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇺🇸</span>
-                            <span class="font-medium">English</span>
-                        </div>
-                        <div id="enCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('de')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇩🇪</span>
-                            <span class="font-medium">Deutsch</span>
-                        </div>
-                        <div id="deCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('fr')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇫🇷</span>
-                            <span class="font-medium">Français</span>
-                        </div>
-                        <div id="frCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('es')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇪🇸</span>
-                            <span class="font-medium">Español</span>
-                        </div>
-                        <div id="esCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('pt')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇵🇹</span>
-                            <span class="font-medium">Português</span>
-                        </div>
-                        <div id="ptCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('zh')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇨🇳</span>
-                            <span class="font-medium">中文</span>
-                        </div>
-                        <div id="zhCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('ja')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇯🇵</span>
-                            <span class="font-medium">日本語</span>
-                        </div>
-                        <div id="jaCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('ko')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇰🇷</span>
-                            <span class="font-medium">한국어</span>
-                        </div>
-                        <div id="koCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('ar')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇸🇦</span>
-                            <span class="font-medium">العربية</span>
-                        </div>
-                        <div id="arCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('ru')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇷🇺</span>
-                            <span class="font-medium">Русский</span>
-                        </div>
-                        <div id="ruCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('hi')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇮🇳</span>
-                            <span class="font-medium">हिन्दी</span>
-                        </div>
-                        <div id="hiCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('id')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇮🇩</span>
-                            <span class="font-medium">Bahasa Indonesia</span>
-                        </div>
-                        <div id="idCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                    <button onclick="selectLanguage('nl')" class="language-option w-full p-4 bg-gray-50 rounded-xl flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <span class="text-lg">🇳🇱</span>
-                            <span class="font-medium">Nederlands</span>
-                        </div>
-                        <div id="nlCheck" class="hidden">
-                            <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                            </svg>
-                        </div>
-                    </button>
-                </div>
+                <button type="button" class="option-btn" onclick="selectLanguage('en')"><div class="option-left"><span class="option-symbol">🇺🇸</span><span class="option-name">English</span></div><svg id="enCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectLanguage('de')"><div class="option-left"><span class="option-symbol">🇩🇪</span><span class="option-name">Deutsch</span></div><svg id="deCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectLanguage('fr')"><div class="option-left"><span class="option-symbol">🇫🇷</span><span class="option-name">Français</span></div><svg id="frCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectLanguage('es')"><div class="option-left"><span class="option-symbol">🇪🇸</span><span class="option-name">Español</span></div><svg id="esCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectLanguage('pt')"><div class="option-left"><span class="option-symbol">🇵🇹</span><span class="option-name">Português</span></div><svg id="ptCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectLanguage('zh')"><div class="option-left"><span class="option-symbol">🇨🇳</span><span class="option-name">中文</span></div><svg id="zhCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectLanguage('ja')"><div class="option-left"><span class="option-symbol">🇯🇵</span><span class="option-name">日本語</span></div><svg id="jaCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectLanguage('ko')"><div class="option-left"><span class="option-symbol">🇰🇷</span><span class="option-name">한국어</span></div><svg id="koCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectLanguage('ar')"><div class="option-left"><span class="option-symbol">🇸🇦</span><span class="option-name">العربية</span></div><svg id="arCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
+                <button type="button" class="option-btn" onclick="selectLanguage('hi')"><div class="option-left"><span class="option-symbol">🇮🇳</span><span class="option-name">हिन्दी</span></div><svg id="hiCheck" class="check-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></button>
             </div>
         </div>
     </div>
@@ -1064,6 +988,7 @@
         // Load profile data
         document.addEventListener('DOMContentLoaded', function() {
             loadProfileData();
+            loadNotifPrefs();
         });
 
         function loadProfileData() {
@@ -1240,19 +1165,12 @@
         }
 
         function updateCurrencyDisplay(currency) {
-            const currencyNames = {
-                'EUR': 'EUR',
-                'USD': 'USD',
-                'GBP': 'GBP',
-                'CHF': 'CHF'
-            };
-            document.getElementById('currentCurrency').textContent = currencyNames[currency] || 'EUR';
-            
-            // Update checkmarks
-            document.getElementById('eurCheck').classList.toggle('hidden', currency !== 'EUR');
-            document.getElementById('usdCheck').classList.toggle('hidden', currency !== 'USD');
-            document.getElementById('gbpCheck').classList.toggle('hidden', currency !== 'GBP');
-            document.getElementById('chfCheck').classList.toggle('hidden', currency !== 'CHF');
+            const names = { EUR:'EUR', USD:'USD', GBP:'GBP', AUD:'AUD', CAD:'CAD', JPY:'JPY', CHF:'CHF', INR:'INR', SGD:'SGD' };
+            document.getElementById('currentCurrency').textContent = names[currency] || currency || 'EUR';
+            ['eur','usd','gbp','aud','cad','jpy','chf','inr','sgd'].forEach(c => {
+                const el = document.getElementById(c + 'Check');
+                if (el) el.classList.toggle('visible', c.toUpperCase() === currency);
+            });
         }
 
         // Language functions
@@ -1274,19 +1192,68 @@
         }
 
         function updateLanguageDisplay(language) {
-            const languageNames = {
-                'en': 'English',
-                'de': 'Deutsch',
-                'fr': 'Français',
-                'es': 'Español'
-            };
-            document.getElementById('currentLanguage').textContent = languageNames[language] || 'English';
-            
-            // Update checkmarks
-            document.getElementById('enCheck').classList.toggle('hidden', language !== 'en');
-            document.getElementById('deCheck').classList.toggle('hidden', language !== 'de');
-            document.getElementById('frCheck').classList.toggle('hidden', language !== 'fr');
-            document.getElementById('esCheck').classList.toggle('hidden', language !== 'es');
+            const names = { en:'English', de:'Deutsch', fr:'Français', es:'Español', pt:'Português', zh:'中文', ja:'日本語', ko:'한국어', ar:'العربية', hi:'हिन्दी' };
+            document.getElementById('currentLanguage').textContent = names[language] || 'English';
+            ['en','de','fr','es','pt','zh','ja','ko','ar','hi'].forEach(l => {
+                const el = document.getElementById(l + 'Check');
+                if (el) el.classList.toggle('visible', l === language);
+            });
+        }
+
+        // Security modals
+        function openSecurityModal() { openModal('securityModal'); }
+        function openChangePinModal() { openModal('changePinModal'); }
+        function openChangePasswordModal() { openModal('changePasswordModal'); }
+
+        function handleChangePIN(event) {
+            event.preventDefault();
+            const cur = document.getElementById('currentPin').value;
+            const next = document.getElementById('newPin').value;
+            const conf = document.getElementById('confirmPin').value;
+            const errEl = document.getElementById('pinError');
+            if (next !== conf) { errEl.textContent = 'New PINs do not match.'; errEl.style.display = 'block'; return; }
+            if (!/^\d{4}$/.test(next)) { errEl.textContent = 'PIN must be exactly 4 digits.'; errEl.style.display = 'block'; return; }
+            const verify = VanstraBank.verifyPin(cur);
+            if (!verify || !verify.success) { errEl.textContent = 'Current PIN is incorrect.'; errEl.style.display = 'block'; return; }
+            errEl.style.display = 'none';
+            VanstraBank.updateProfile({ pin: next });
+            closeModal('changePinModal');
+            document.getElementById('changePinForm').reset();
+            showToast('PIN updated successfully');
+        }
+
+        function handleChangePassword(event) {
+            event.preventDefault();
+            const next = document.getElementById('newPassword').value;
+            const conf = document.getElementById('confirmPassword').value;
+            const errEl = document.getElementById('pwError');
+            if (next !== conf) { errEl.textContent = 'Passwords do not match.'; errEl.style.display = 'block'; return; }
+            if (next.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; errEl.style.display = 'block'; return; }
+            errEl.style.display = 'none';
+            VanstraBank.updateProfile({ password: next });
+            closeModal('changePasswordModal');
+            document.getElementById('changePasswordForm').reset();
+            showToast('Password updated. Please log in again.');
+            setTimeout(() => { VanstraBank.logout(localStorage.getItem('currentSession')); window.location.href = 'login.html'; }, 2000);
+        }
+
+        function showLoginActivity() {
+            showToast('Last login: ' + new Date().toLocaleString());
+        }
+
+        // Notification preferences
+        function saveNotifPref(key, value) {
+            const prefs = JSON.parse(localStorage.getItem('notifPrefs') || '{}');
+            prefs[key] = value;
+            localStorage.setItem('notifPrefs', JSON.stringify(prefs));
+            showToast(value ? key.charAt(0).toUpperCase() + key.slice(1) + ' notifications enabled' : key.charAt(0).toUpperCase() + key.slice(1) + ' notifications disabled');
+        }
+        function loadNotifPrefs() {
+            const prefs = JSON.parse(localStorage.getItem('notifPrefs') || '{"push":true,"email":true,"sms":false,"marketing":false}');
+            ['push','email','sms','marketing'].forEach(k => {
+                const el = document.getElementById('toggle' + k.charAt(0).toUpperCase() + k.slice(1));
+                if (el) el.checked = !!prefs[k];
+            });
         }
 
         // Logout

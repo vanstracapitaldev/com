@@ -759,13 +759,50 @@
             .vc-card { max-width: 260px; }
             .limit-value-display { font-size: 1.6rem; }
         }
+
+        /* Screen slide-in transition */
+        @keyframes screenFadeIn {
+            from { opacity: 0; transform: translateX(14px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .screen.active { animation: screenFadeIn 0.22s ease; }
+
+        /* Step content headings */
+        .step-heading        { font-size:1rem; font-weight:700; color:var(--text); margin:0 0 1rem; }
+        .step-subheading     { font-size:0.9rem; font-weight:600; color:var(--muted); margin:0 0 1rem; }
+        .step-heading-center { font-size:1rem; font-weight:700; color:var(--text); text-align:center; margin:0 0 1.25rem; }
+        .section-title-sm-center { text-align:center; margin-bottom:0.5rem; }
+
+        /* Error: hidden by default, shown via JS */
+        .repay-error { display:none; }
+
+        /* Checkbox row top spacing */
+        .checkbox-row.mt { margin-top:1.25rem; }
+
+        /* Color swatch fills */
+        .swatch-red      { background:#B91C1C; }
+        .swatch-black    { background:#111111; }
+        .swatch-charcoal { background:#3D3A7A; }
+        .swatch-purple   { background:#4B4898; }
+        .swatch-teal     { background:#0F4C4C; }
+
+        /* Success screen */
+        .success-preview-wrap { margin-bottom:1.5rem; }
+        .success-detail-card  { text-align:left; }
+        .success-row      { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; }
+        .success-row-last { display:flex; justify-content:space-between; align-items:center; }
+        .success-label    { color:var(--muted); font-size:0.85rem; }
+        .success-value    { font-weight:700; }
+
+        /* Loading overlay text */
+        .loading-text { font-size:0.9rem; color:var(--muted); }
     </style>
 </head>
 <body>
 
     <!-- Header -->
     <header class="app-header">
-        <button class="back-btn" id="backBtn" onclick="goBack()">
+        <button class="back-btn" id="backBtn" onclick="goBack()" aria-label="Go back" title="Go back">
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
@@ -790,7 +827,7 @@
     <section class="screen active" id="step-0">
         <div class="eligibility-box">
             <p class="eligibility-label">You are eligible for</p>
-            <p class="eligibility-amount amt" id="eligibilityAmount">NPR 1,00,000.00</p>
+            <p class="eligibility-amount amt" id="eligibilityAmount">€100,000</p>
         </div>
 
         <div class="card-preview-wrap">
@@ -814,7 +851,7 @@
             <div class="info-card-row">
                 <div>
                     <p class="info-card-label">Credit limit</p>
-                    <p class="info-card-value amt" id="creditLimitDisplay0">NPR 1,00,000.00</p>
+                    <p class="info-card-value amt" id="creditLimitDisplay0">€50,000</p>
                 </div>
                 <button class="change-link" onclick="goToStep(1)">Change</button>
             </div>
@@ -825,17 +862,17 @@
     <section class="screen" id="step-1">
         <div class="limit-approved-box">
             <p class="limit-approved-text">You are approved for virtual credit card with maximum limit of</p>
-            <p class="limit-approved-amount amt">NPR 1,00,000.00</p>
+            <p class="limit-approved-amount amt">€100,000</p>
         </div>
 
         <div class="limit-control-card">
             <p class="limit-control-title">Change credit limit</p>
-            <p class="section-title-sm" style="text-align:center; margin-bottom:0.5rem;">Credit limit</p>
+            <p class="section-title-sm section-title-sm-center">Credit limit</p>
 
             <div class="limit-row">
-                <button class="limit-btn" onclick="adjustLimit(-5000)">−</button>
-                <div class="limit-value-display" id="limitValueDisplay">50000</div>
-                <button class="limit-btn" onclick="adjustLimit(5000)">+</button>
+                <button class="limit-btn" onclick="adjustLimit(-5000)" aria-label="Decrease credit limit" title="Decrease">−</button>
+                <div class="limit-value-display" id="limitValueDisplay">50,000</div>
+                <button class="limit-btn" onclick="adjustLimit(5000)" aria-label="Increase credit limit" title="Increase">+</button>
             </div>
 
             <input
@@ -849,15 +886,15 @@
                 oninput="onSliderChange(this.value)"
             />
             <div class="limit-minmax">
-                <span>Min NPR 5000</span>
-                <span>Max NPR 100000</span>
+                <span>Min €5,000</span>
+                <span>Max €100,000</span>
             </div>
         </div>
     </section>
 
     <!-- ======================== STEP 2: REPAYMENT SETTINGS ======================== -->
     <section class="screen" id="step-2">
-        <p style="font-size:1rem; font-weight:700; color:var(--text); margin:0 0 1rem;">Repayment settings</p>
+        <p class="step-heading">Repayment settings</p>
 
         <!-- Option A: Minimum amount due -->
         <div class="repay-option selected" id="repayOpt-min" onclick="selectRepayOption('min')">
@@ -875,7 +912,7 @@
                         value="10"
                         oninput="validateMinPercent()"
                     />
-                    <p class="repay-error" id="minPercentError" style="display:none">Percent cannot be less than 10</p>
+                    <p class="repay-error" id="minPercentError">Percent cannot be less than 10</p>
                 </div>
             </div>
         </div>
@@ -903,7 +940,7 @@
 
     <!-- ======================== STEP 3: REPAYMENT METHOD ======================== -->
     <section class="screen" id="step-3">
-        <p style="font-size:0.9rem; font-weight:600; color:var(--muted); margin:0 0 1rem;">Choose repayment method</p>
+        <p class="step-subheading">Choose repayment method</p>
 
         <div class="account-option selected" id="acc-salary" onclick="selectAccount('salary')">
             <div class="account-icon">V</div>
@@ -928,7 +965,7 @@
             User other bank account
         </button>
 
-        <div class="checkbox-row" style="margin-top: 1.25rem;">
+        <div class="checkbox-row mt">
             <input type="checkbox" id="autoDebitCheck" checked />
             <label for="autoDebitCheck">
                 Yes I would like to have my account automatically debited each month for my credit card payment
@@ -938,7 +975,7 @@
 
     <!-- ======================== STEP 4: CARD DESIGN ======================== -->
     <section class="screen" id="step-4">
-        <p style="font-size:1rem; font-weight:700; color:var(--text); margin:0 0 1.25rem; text-align:center;">Select card design</p>
+        <p class="step-heading-center">Select card design</p>
 
         <div class="card-preview-wrap">
             <div class="vc-card card-theme-charcoal" id="cardPreview4">
@@ -960,46 +997,11 @@
         <div class="design-name-display" id="designNameDisplay">Purple Paradise</div>
 
         <div class="color-swatches">
-            <button
-                class="color-swatch"
-                style="background:#B91C1C;"
-                data-theme="red"
-                data-name="Crimson Flame"
-                onclick="selectDesign(this)"
-                title="Crimson Flame"
-            ></button>
-            <button
-                class="color-swatch"
-                style="background:#111111;"
-                data-theme="black"
-                data-name="Midnight Black"
-                onclick="selectDesign(this)"
-                title="Midnight Black"
-            ></button>
-            <button
-                class="color-swatch"
-                style="background:#3D3A7A;"
-                data-theme="charcoal"
-                data-name="Purple Paradise"
-                onclick="selectDesign(this)"
-                title="Purple Paradise"
-            ></button>
-            <button
-                class="color-swatch active"
-                style="background:#4B4898;"
-                data-theme="purple"
-                data-name="Purple Paradise"
-                onclick="selectDesign(this)"
-                title="Purple Paradise"
-            ></button>
-            <button
-                class="color-swatch"
-                style="background:#0F4C4C;"
-                data-theme="teal"
-                data-name="Ocean Teal"
-                onclick="selectDesign(this)"
-                title="Ocean Teal"
-            ></button>
+            <button class="color-swatch swatch-red" data-theme="red" data-name="Crimson Flame" onclick="selectDesign(this)" title="Crimson Flame" aria-label="Crimson Flame"></button>
+            <button class="color-swatch swatch-black" data-theme="black" data-name="Midnight Black" onclick="selectDesign(this)" title="Midnight Black" aria-label="Midnight Black"></button>
+            <button class="color-swatch swatch-charcoal" data-theme="charcoal" data-name="Slate Dusk" onclick="selectDesign(this)" title="Slate Dusk" aria-label="Slate Dusk"></button>
+            <button class="color-swatch swatch-purple active" data-theme="purple" data-name="Purple Paradise" onclick="selectDesign(this)" title="Purple Paradise" aria-label="Purple Paradise"></button>
+            <button class="color-swatch swatch-teal" data-theme="teal" data-name="Ocean Teal" onclick="selectDesign(this)" title="Ocean Teal" aria-label="Ocean Teal"></button>
         </div>
     </section>
 
@@ -1014,7 +1016,7 @@
             <h2 class="success-title">Card Applied!</h2>
             <p class="success-sub">Your virtual credit card has been successfully applied. It will be active within minutes.</p>
 
-            <div class="card-preview-wrap" style="margin-bottom:1.5rem;">
+            <div class="card-preview-wrap success-preview-wrap">
                 <div class="vc-card card-theme-purple" id="cardPreviewSuccess">
                     <div class="vc-card-top">
                         <div class="vc-card-logo">BANK<br>LOGO</div>
@@ -1031,18 +1033,18 @@
                 </div>
             </div>
 
-            <div class="info-card" style="text-align:left;">
-                <div class="info-card-row" style="margin-bottom:0.75rem;">
-                    <span style="color:var(--muted);font-size:0.85rem;">Credit Limit</span>
-                    <span style="font-weight:700;" id="successLimitDisplay">NPR 50,000</span>
+            <div class="info-card success-detail-card">
+                <div class="success-row">
+                    <span class="success-label">Credit Limit</span>
+                    <span class="success-value" id="successLimitDisplay">€50,000</span>
                 </div>
-                <div class="info-card-row" style="margin-bottom:0.75rem;">
-                    <span style="color:var(--muted);font-size:0.85rem;">Repayment</span>
-                    <span style="font-weight:700;" id="successRepayDisplay">Min 10%</span>
+                <div class="success-row">
+                    <span class="success-label">Repayment</span>
+                    <span class="success-value" id="successRepayDisplay">Min 10%</span>
                 </div>
-                <div class="info-card-row">
-                    <span style="color:var(--muted);font-size:0.85rem;">Repayment Account</span>
-                    <span style="font-weight:700;" id="successAccDisplay">Salary Account</span>
+                <div class="success-row-last">
+                    <span class="success-label">Repayment Account</span>
+                    <span class="success-value" id="successAccDisplay">Salary Account</span>
                 </div>
             </div>
         </div>
@@ -1056,7 +1058,7 @@
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
-        <span style="font-size:0.9rem;color:var(--muted);">Processing...</span>
+        <span class="loading-text">Processing...</span>
     </div>
 
     <!-- Toast -->
@@ -1111,8 +1113,8 @@
 
             // Determine eligibility based on balance
             const eligibleAmount = Math.min(user.balance * 2, MAX_ELIGIBLE);
-            document.getElementById('eligibilityAmount').textContent = formatNPR(eligibleAmount);
-            document.getElementById('creditLimitDisplay0').textContent = formatNPR(state.creditLimit);
+            document.getElementById('eligibilityAmount').textContent = formatEUR(eligibleAmount);
+            document.getElementById('creditLimitDisplay0').textContent = formatEUR(state.creditLimit);
         }
 
         // ==================== NAVIGATION ====================
@@ -1167,7 +1169,7 @@
         function handleMainAction() {
             if (currentStep === 1) {
                 // Update credit limit on step 0 display
-                document.getElementById('creditLimitDisplay0').textContent = formatNPR(state.creditLimit);
+                document.getElementById('creditLimitDisplay0').textContent = formatEUR(state.creditLimit);
                 goToStep(0);
                 return;
             }
@@ -1302,7 +1304,7 @@
                 }
 
                 // Update success screen
-                document.getElementById('successLimitDisplay').textContent = formatNPR(state.creditLimit);
+                document.getElementById('successLimitDisplay').textContent = formatEUR(state.creditLimit);
                 document.getElementById('successRepayDisplay').textContent = state.repayType === 'full'
                     ? '100% Outstanding'
                     : 'Min ' + state.minPercent + '%';
@@ -1320,9 +1322,8 @@
         }
 
         // ==================== HELPERS ====================
-        function formatNPR(amount) {
-            const parts = amount.toLocaleString('en-IN').split('.');
-            return 'NPR ' + parts[0] + '.00';
+        function formatEUR(amount) {
+            return '€' + Math.round(amount).toLocaleString('en-EU');
         }
 
         function showError(id) {
