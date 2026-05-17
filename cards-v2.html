@@ -30,8 +30,9 @@
             --shadow: rgba(15, 23, 42, 0.12);
         }
 
-        html, body {
+        html {
             height: 100%;
+            overflow-x: hidden;
         }
 
         body {
@@ -39,7 +40,9 @@
             background: var(--bg);
             color: var(--text);
             margin: 0;
-            padding: 0;
+            padding: 0 0 calc(80px + env(safe-area-inset-bottom, 0px));
+            min-height: 100%;
+            overflow-x: hidden;
         }
 
         h1, h2, h3, .card-number, .card-balance {
@@ -765,10 +768,14 @@
             display: flex;
             gap: 1rem;
             overflow-x: auto;
-            padding: 0.5rem 0.2rem;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+            padding: 0.5rem 0.2rem 0.75rem;
             margin-bottom: 0.5rem;
+            scrollbar-width: none;
         }
         .design-scroll::-webkit-scrollbar { display: none; }
+        .design-option { scroll-snap-align: start; }
 
         .design-option {
             flex: 0 0 120px;
@@ -845,9 +852,15 @@
             display: none !important;
         }
 
-        .design-navy { background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 100%); }
-        .design-black { background: linear-gradient(135deg, #111 0%, #333 100%); }
-        .design-gold { background: linear-gradient(135deg, #C89A3A 0%, #F0E68C 100%); }
+        .design-navy     { background: linear-gradient(135deg, #041225 0%, #1E2D6B 100%); }
+        .design-midnight { background: linear-gradient(135deg, #1E1B4B 0%, #4338CA 60%, #818CF8 100%); }
+        .design-crimson  { background: linear-gradient(135deg, #450A0A 0%, #B91C1C 60%, #F87171 100%); }
+        .design-ocean    { background: linear-gradient(135deg, #0C4A6E 0%, #0284C7 60%, #38BDF8 100%); }
+        .design-emerald  { background: linear-gradient(135deg, #022C22 0%, #047857 60%, #34D399 100%); }
+        .design-sunset   { background: linear-gradient(135deg, #431407 0%, #C2410C 50%, #FB923C 100%); }
+        .design-rose     { background: linear-gradient(135deg, #4C0519 0%, #BE123C 60%, #FB7185 100%); }
+        .design-gold     { background: linear-gradient(135deg, #451A03 0%, #B45309 50%, #FBBF24 100%); }
+        .design-black    { background: linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 50%, #2D2D2D 100%); }
 
         .design-preview-chip {
             position: absolute;
@@ -884,16 +897,24 @@
             margin-top: 0.25rem;
         }
 
-        @media (min-width: 768px) {
+        @media (min-width: 600px) {
+            body {
+                max-width: 480px;
+                margin: 0 auto;
+                box-shadow: 0 0 40px rgba(0,0,0,0.08);
+            }
+            .bottom-nav {
+                max-width: 480px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
             .page-content {
                 padding: 2.5rem 1.25rem 3rem;
             }
         }
 
         @media (max-width: 420px) {
-            .vertical-card {
-                border-radius: 16px;
-            }
+            .vertical-card { border-radius: 16px; }
             .card-front, .card-back { padding: 16px 18px; }
             .card-number { font-size: 1rem; letter-spacing: 0.14em; }
             .meta-label  { font-size: 0.58rem; }
@@ -902,6 +923,21 @@
             .card-action-btn  { padding: 0.6rem 0.15rem; border-radius: 14px; }
             .card-action-icon { width: 36px; height: 36px; border-radius: 10px; }
             .card-action-label { font-size: 0.65rem; }
+            .page-content { padding: 1rem 1rem 2rem; }
+        }
+
+        /* ── Narrow phones (≤ 360px) ── */
+        @media (max-width: 360px) {
+            .card-number { font-size: 0.875rem; letter-spacing: 0.1em; }
+            .card-front, .card-back { padding: 14px 14px; }
+            .meta-value  { font-size: 0.72rem; }
+            .network-logo { width: 38px; height: 22px; }
+            .card-actions-row { gap: 0.35rem; }
+            .card-action-icon { width: 32px; height: 32px; border-radius: 8px; }
+            .card-action-icon svg { width: 16px; height: 16px; }
+            .card-action-label { font-size: 0.6rem; }
+            .no-cards-wrap { padding: 1rem; }
+            .no-cards-title { font-size: 1.15rem; }
         }
 
         .card-flip-hint {
@@ -1349,27 +1385,39 @@
                     <div class="design-scroll">
                         <div class="design-option design-navy active" id="design-navy" onclick="selectCardDesign('navy')">
                             <div class="design-preview-chip"></div>
-                            <div class="design-check">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
                         </div>
-                        <div class="design-option design-black" id="design-black" onclick="selectCardDesign('black')">
+                        <div class="design-option design-midnight" id="design-midnight" onclick="selectCardDesign('midnight')">
                             <div class="design-preview-chip"></div>
-                            <div class="design-check">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-crimson" id="design-crimson" onclick="selectCardDesign('crimson')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-ocean" id="design-ocean" onclick="selectCardDesign('ocean')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-emerald" id="design-emerald" onclick="selectCardDesign('emerald')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-sunset" id="design-sunset" onclick="selectCardDesign('sunset')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-rose" id="design-rose" onclick="selectCardDesign('rose')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
                         </div>
                         <div class="design-option design-gold" id="design-gold" onclick="selectCardDesign('gold')">
                             <div class="design-preview-chip"></div>
-                            <div class="design-check">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-black" id="design-black" onclick="selectCardDesign('black')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
                         </div>
                     </div>
                     <div class="design-label" id="design-name-label">Classic Navy</div>
@@ -1425,27 +1473,39 @@
                     <div class="design-scroll">
                         <div class="design-option design-navy active" id="change-design-navy" onclick="changeCardDesign('navy')">
                             <div class="design-preview-chip"></div>
-                            <div class="design-check">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
                         </div>
-                        <div class="design-option design-black" id="change-design-black" onclick="changeCardDesign('black')">
+                        <div class="design-option design-midnight" id="change-design-midnight" onclick="changeCardDesign('midnight')">
                             <div class="design-preview-chip"></div>
-                            <div class="design-check">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-crimson" id="change-design-crimson" onclick="changeCardDesign('crimson')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-ocean" id="change-design-ocean" onclick="changeCardDesign('ocean')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-emerald" id="change-design-emerald" onclick="changeCardDesign('emerald')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-sunset" id="change-design-sunset" onclick="changeCardDesign('sunset')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-rose" id="change-design-rose" onclick="changeCardDesign('rose')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
                         </div>
                         <div class="design-option design-gold" id="change-design-gold" onclick="changeCardDesign('gold')">
                             <div class="design-preview-chip"></div>
-                            <div class="design-check">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                            </div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
+                        </div>
+                        <div class="design-option design-black" id="change-design-black" onclick="changeCardDesign('black')">
+                            <div class="design-preview-chip"></div>
+                            <div class="design-check"><svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg></div>
                         </div>
                     </div>
                     <div class="design-label" id="change-design-name-label">Classic Navy</div>
@@ -1613,15 +1673,19 @@
             if (cvvEl)     cvvEl.textContent = '•••';
             if (numBackEl) numBackEl.textContent = cardData.number.match(/.{1,4}/g).join(' ');
 
-            if (cardData.design === 'black') {
-                cardEl.style.background = 'linear-gradient(135deg, #111 0%, #333 100%)';
-            } else if (cardData.design === 'gold') {
-                cardEl.style.background = 'linear-gradient(135deg, #C89A3A 0%, #F0E68C 100%)';
-                cardEl.style.color = '#041225';
-            } else {
-                cardEl.style.background = 'linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #312E81 100%)';
-                cardEl.style.color = 'white';
-            }
+            const physGradients = {
+                navy:     'linear-gradient(135deg, #041225 0%, #1E2D6B 100%)',
+                midnight: 'linear-gradient(135deg, #1E1B4B 0%, #4338CA 60%, #818CF8 100%)',
+                crimson:  'linear-gradient(135deg, #450A0A 0%, #B91C1C 60%, #F87171 100%)',
+                ocean:    'linear-gradient(135deg, #0C4A6E 0%, #0284C7 60%, #38BDF8 100%)',
+                emerald:  'linear-gradient(135deg, #022C22 0%, #047857 60%, #34D399 100%)',
+                sunset:   'linear-gradient(135deg, #431407 0%, #C2410C 50%, #FB923C 100%)',
+                rose:     'linear-gradient(135deg, #4C0519 0%, #BE123C 60%, #FB7185 100%)',
+                gold:     'linear-gradient(135deg, #451A03 0%, #B45309 50%, #FBBF24 100%)',
+                black:    'linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 50%, #2D2D2D 100%)',
+            };
+            cardEl.style.background = physGradients[cardData.design] || physGradients.navy;
+            cardEl.style.color = 'white';
 
             if (netLogo) {
                 if (cardData.type === 'visa') {
@@ -1735,17 +1799,19 @@
             }
             
             // Update design
-            if (cardData.design === 'black') {
-                cardEl.style.background = 'linear-gradient(135deg, #111 0%, #333 100%)';
-                cardEl.style.color = 'white';
-            } else if (cardData.design === 'gold') {
-                cardEl.style.background = 'linear-gradient(135deg, #C89A3A 0%, #F0E68C 100%)';
-                cardEl.style.color = '#041225'; // Dark text for gold card
-            } else {
-                // Default Navy
-                cardEl.style.background = 'linear-gradient(135deg, var(--brand) 0%, rgba(44, 62, 107, 0.9) 100%)';
-                cardEl.style.color = 'white';
-            }
+            const cardGradients = {
+                navy:     'linear-gradient(135deg, #041225 0%, #1E2D6B 100%)',
+                midnight: 'linear-gradient(135deg, #1E1B4B 0%, #4338CA 60%, #818CF8 100%)',
+                crimson:  'linear-gradient(135deg, #450A0A 0%, #B91C1C 60%, #F87171 100%)',
+                ocean:    'linear-gradient(135deg, #0C4A6E 0%, #0284C7 60%, #38BDF8 100%)',
+                emerald:  'linear-gradient(135deg, #022C22 0%, #047857 60%, #34D399 100%)',
+                sunset:   'linear-gradient(135deg, #431407 0%, #C2410C 50%, #FB923C 100%)',
+                rose:     'linear-gradient(135deg, #4C0519 0%, #BE123C 60%, #FB7185 100%)',
+                gold:     'linear-gradient(135deg, #451A03 0%, #B45309 50%, #FBBF24 100%)',
+                black:    'linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 50%, #2D2D2D 100%)',
+            };
+            cardEl.style.background = cardGradients[cardData.design] || cardGradients.navy;
+            cardEl.style.color = 'white';
 
             // Update details panel
             if (isDetailsVisible) {
@@ -1845,15 +1911,21 @@
 
         function selectCardDesign(design) {
             selectedCardDesign = design;
-            document.querySelectorAll('.design-option').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('#addCardModal .design-option').forEach(el => el.classList.remove('active'));
             document.getElementById('design-' + design).classList.add('active');
             
             const labels = {
-                'navy': 'Classic Navy',
-                'black': 'Midnight Black',
-                'gold': 'Prestige Gold'
+                navy:     'Classic Navy',
+                midnight: 'Midnight Purple',
+                crimson:  'Crimson Red',
+                ocean:    'Ocean Blue',
+                emerald:  'Emerald Green',
+                sunset:   'Sunset Orange',
+                rose:     'Rose Pink',
+                gold:     'Prestige Gold',
+                black:    'Onyx Black',
             };
-            document.getElementById('design-name-label').textContent = labels[design];
+            document.getElementById('design-name-label').textContent = labels[design] || design;
         }
 
         function openAddCardModal() {
@@ -1871,6 +1943,8 @@
 
         function openDesignModal() {
             document.getElementById('designModal').style.display = 'flex';
+            const currentDesign = userCards[currentCardIndex]?.design || 'navy';
+            changeCardDesign(currentDesign);
         }
 
         function closeDesignModal() {
@@ -1992,20 +2066,21 @@
         }
 
         function changeCardDesign(design) {
-            // Remove active class from all options
-            document.querySelectorAll('#change-design-navy, #change-design-black, #change-design-gold').forEach(el => el.classList.remove('active'));
-            // Add active class to selected
+            document.querySelectorAll('#designModal .design-option').forEach(el => el.classList.remove('active'));
             document.getElementById(`change-design-${design}`).classList.add('active');
-            // Update label
-            const labels = { navy: 'Classic Navy', black: 'Premium Black', gold: 'Luxury Gold' };
-            document.getElementById('change-design-name-label').textContent = labels[design];
+            const labels = {
+                navy: 'Classic Navy', midnight: 'Midnight Purple', crimson: 'Crimson Red',
+                ocean: 'Ocean Blue', emerald: 'Emerald Green', sunset: 'Sunset Orange',
+                rose: 'Rose Pink', gold: 'Prestige Gold', black: 'Onyx Black',
+            };
+            document.getElementById('change-design-name-label').textContent = labels[design] || design;
         }
 
         function confirmDesignChange() {
             const currentUser = VanstraBank.getCurrentUser();
             if (!currentUser) return;
 
-            const activeDesign = document.querySelector('#change-design-navy.active, #change-design-black.active, #change-design-gold.active');
+            const activeDesign = document.querySelector('#designModal .design-option.active');
             if (activeDesign) {
                 const design = activeDesign.id.replace('change-design-', '');
                 const card = userCards[currentCardIndex];

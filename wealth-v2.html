@@ -13,7 +13,7 @@
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         :root { --navy:#041225; --slate:#0B2A3F; --gold:#C89A3A; --green:#10B981; --red:#EF4444; }
-        body { font-family:'Inter',sans-serif; background:#F4F6F9; color:#1F2937; margin:0; padding:0 0 80px; }
+        body { font-family:'Inter',sans-serif; background:#F4F6F9; color:#1F2937; margin:0; padding:0 0 calc(80px + env(safe-area-inset-bottom, 0px)); overflow-x:hidden; }
         h1,h2,h3,.portfolio-value { font-family:'Poppins',sans-serif; }
 
         /* Header */
@@ -94,16 +94,8 @@
         .tip-text p { margin:0; font-size:0.8125rem; opacity:.9; }
 
         /* Bottom nav */
-        .bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#FFFFFF; border-top:1px solid #E5E7EB; display:flex; align-items:stretch; z-index:50; padding-bottom:env(safe-area-inset-bottom, 0); box-shadow:0 -2px 16px rgba(15,23,42,0.06); }
-        .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; padding:0.55rem 0.25rem; cursor:pointer; text-decoration:none; color:#94A3B8; border:none; background:transparent; transition:color .18s; min-width:0; }
-        .nav-icon-wrap { display:flex; align-items:center; justify-content:center; width:36px; height:28px; border-radius:10px; transition:background .18s; }
-        .nav-item.active .nav-icon-wrap { background:rgba(200,154,58,0.13); }
-        .nav-item svg { width:20px; height:20px; flex-shrink:0; stroke-width:1.7; }
-        .nav-item span { font-size:10px; font-weight:500; white-space:nowrap; }
-        .nav-item.active { color:var(--gold); }
-        .nav-item.active svg { stroke-width:2.2; }
-        .nav-item { position:relative; }
-        .nav-item.active::after { content:''; position:absolute; bottom:4px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:var(--gold); }
+        /* Bottom Navigation — from bank-ui.css */
+        .bottom-nav { z-index: 100; }
 
         /* Modal extras */
         .modal-body { padding:1.25rem; overflow-y:auto; max-height:calc(90vh - 70px); }
@@ -142,6 +134,32 @@
         .invest-name { font-weight:600; font-size:0.875rem; color:#111827; }
         .invest-desc { font-size:0.75rem; color:#6B7280; }
         .toast-hidden { display:none; }
+
+        /* ── Desktop centering ── */
+        @media (min-width: 600px) {
+            body { max-width: 480px; margin: 0 auto; box-shadow: 0 0 40px rgba(0,0,0,.08); }
+            .bottom-nav { max-width: 480px; left: 50%; transform: translateX(-50%); }
+        }
+
+        /* ── Mobile overrides ── */
+        @media (max-width: 390px) {
+            .portfolio-value { font-size: 1.7rem; }
+            .portfolio-hero { margin: 0.75rem; padding: 1.25rem; }
+            .portfolio-stats { gap: 0.75rem; }
+            .pstat-value { font-size: 0.8rem; }
+            .loan-grid { grid-template-columns: repeat(2, 1fr); }
+            .loan-amount-text { font-size: 0.82rem; }
+            .chart-section { margin: 0 0.75rem 0.75rem; }
+            .asset-card { margin: 0 0.75rem 0.6rem; }
+            .savings-card { margin: 0 0.75rem 0.6rem; }
+            .tip-banner { margin: 0 0.75rem 0.75rem; }
+        }
+
+        @media (max-width: 360px) {
+            .loan-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+            .loan-option { padding: 0.7rem 0.35rem; }
+            .invest-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+        }
     </style>
 </head>
 <body>
