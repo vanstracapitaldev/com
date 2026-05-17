@@ -182,145 +182,165 @@
         
         /* Balance Section */
         .balance-section {
-            background: linear-gradient(145deg, var(--navy) 0%, #0e2d47 50%, var(--slate) 100%);
+            background: linear-gradient(155deg, #041225 0%, #0a1f38 45%, #0d2540 100%);
             color: white;
-            padding: 1.5rem 1.5rem 1.25rem;
+            padding: 1.75rem 1.5rem 1.5rem;
             margin: 0.875rem;
-            border-radius: 22px;
-            box-shadow: 0 8px 32px rgba(4,18,37,0.28), 0 2px 8px rgba(4,18,37,0.15);
+            border-radius: 28px;
+            box-shadow: 0 16px 48px rgba(4,18,37,0.4), 0 4px 12px rgba(4,18,37,0.2);
             position: relative;
             overflow: hidden;
         }
         .balance-section::before {
             content: '';
             position: absolute;
-            top: -40px;
-            right: -40px;
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle, rgba(200,154,58,0.12) 0%, transparent 70%);
+            top: -70px; right: -70px;
+            width: 240px; height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(200,154,58,0.18) 0%, transparent 65%);
             pointer-events: none;
         }
-        
+        .balance-section::after {
+            content: '';
+            position: absolute;
+            bottom: -50px; left: -40px;
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(30,45,107,0.55) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .balance-grid-lines {
+            position: absolute; inset: 0; pointer-events: none; opacity: 0.025;
+            background-image: linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .balance-header-row {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            margin-bottom: 0.875rem; position: relative; z-index: 1;
+        }
         .balance-label {
-            font-size: 14px;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 0.5rem;
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.25rem;
         }
-        
+        .balance-change-pill {
+            display: inline-flex; align-items: center; gap: 0.25rem;
+            background: rgba(74,222,128,0.15);
+            border: 1px solid rgba(74,222,128,0.25);
+            border-radius: 999px;
+            padding: 0.2rem 0.6rem;
+            font-size: 11px; font-weight: 600; color: #4ade80;
+        }
+        .balance-eye-btn {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: rgba(255,255,255,0.6);
+            transition: all 0.2s; flex-shrink: 0;
+        }
+        .balance-eye-btn:hover { background: rgba(255,255,255,0.14); color: white; }
+        .balance-toggle {
+            display: flex; align-items: center; gap: 0.75rem;
+            cursor: pointer; position: relative; z-index: 1;
+        }
+        .balance-toggle-icon { width: 20px; height: 20px; color: rgba(255,255,255,0.7); }
         .balance-amount {
-            font-size: 2.25rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 0;
+            line-height: 1;
+            margin-bottom: 0.375rem;
             transition: filter 0.2s ease;
+            position: relative; z-index: 1;
         }
-        
-        .hidden {
-            display: none !important;
-        }
-        
+        .hidden { display: none !important; }
         .balance-amount.hidden {
             filter: blur(8px);
-            -webkit-user-select: none;
-            user-select: none;
+            -webkit-user-select: none; user-select: none;
         }
-        
         .balance-timestamp {
-            font-size: 12px;
-            color: rgba(255,255,255,0.6);
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 1.25rem;
+            position: relative; z-index: 1;
         }
-        
+        .balance-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1) 30%, rgba(200,154,58,0.2) 60%, transparent);
+            margin-bottom: 1rem;
+            position: relative; z-index: 1;
+        }
         .account-info {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            gap: 0.625rem;
+            flex-wrap: wrap;
+            position: relative; z-index: 1;
         }
-        
         .account-number-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            position: relative;
+            display: flex; align-items: center; gap: 0.5rem;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 0.3rem 0.625rem;
         }
-        
         .account-number {
-            font-size: 14px;
-            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+            color: rgba(255,255,255,0.75);
             font-family: 'Courier New', monospace;
             letter-spacing: 1px;
         }
-        
         .copy-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            border-radius: 6px;
-            padding: 4px 6px;
-            cursor: pointer;
-            color: rgba(255,255,255,0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            opacity: 0.6;
+            background: none; border: none;
+            cursor: pointer; color: rgba(255,255,255,0.5);
+            display: flex; align-items: center; justify-content: center;
+            padding: 2px; border-radius: 4px;
+            transition: color 0.15s;
         }
-        
-        .copy-btn:hover {
-            background: rgba(255,255,255,0.3);
-            opacity: 1;
-        }
-        
-        .copy-btn:active {
-            transform: scale(0.9);
-        }
-        
+        .copy-btn:hover { color: rgba(255,255,255,0.9); }
+        .copy-btn:active { transform: scale(0.9); }
         .account-type {
-            background: rgba(255,255,255,0.1);
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .account-status {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-size: 12px;
+            background: rgba(200,154,58,0.18);
+            border: 1px solid rgba(200,154,58,0.3);
+            padding: 0.3rem 0.75rem;
+            border-radius: 999px;
+            font-size: 11px;
             font-weight: 600;
-            margin-top: 0.75rem;
+            color: var(--gold);
+            letter-spacing: 0.04em;
         }
-        
+        .account-status {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            padding: 0.3rem 0.875rem;
+            border-radius: 999px;
+            font-size: 11px; font-weight: 600;
+        }
         .account-status.active {
-            background: #D1FAE5;
-            color: #065F46;
+            background: rgba(74,222,128,0.12);
+            border: 1px solid rgba(74,222,128,0.25);
+            color: #4ade80;
         }
         
         .account-status.frozen {
-            background: #FEE2E2;
-            color: #991B1B;
-            animation: pulse 2s infinite;
+            background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.25);
+            color: #f87171; animation: pulse 2s infinite;
         }
-        
         .account-status.suspended {
-            background: #FEF3C7;
-            color: #92400E;
-            animation: pulse 2s infinite;
+            background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.25);
+            color: #fbbf24; animation: pulse 2s infinite;
         }
-        
         .account-status.blocked {
-            background: #FECACA;
-            color: #7F1D1D;
-            animation: pulse 2s infinite;
+            background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2);
+            color: #fca5a5; animation: pulse 2s infinite;
         }
-
         .account-status.locked {
-            background: #E0E7FF;
-            color: #3730A3;
-            animation: pulse 2s infinite;
+            background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.25);
+            color: #c4b5fd; animation: pulse 2s infinite;
         }
 
         .suspension-verification-modal {
@@ -473,61 +493,60 @@
             padding: 0 1rem;
             margin-bottom: 1.5rem;
         }
-        
         .quick-action {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 0.5rem;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 0.5rem;
+            padding: 1.25rem 0.375rem 1rem;
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.04);
+            position: relative; overflow: hidden;
         }
-        
-        .quick-action:active {
-            transform: scale(0.95);
+        .quick-action::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            border-radius: 20px 20px 0 0;
+            opacity: 0; transition: opacity 0.2s;
         }
-        
-        .quick-action.restricted {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-        
-        .quick-action.restricted::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-        }
-        
+        .quick-action:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.1); }
+        .quick-action:hover::before { opacity: 1; }
+        .quick-action:active { transform: scale(0.95); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .quick-action.restricted { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+
+        /* Transfer — blue */
+        .quick-action-transfer::before { background: #3B82F6; }
+        .quick-action-transfer .quick-action-icon { background: rgba(59,130,246,0.1); }
+        .quick-action-transfer .quick-action-icon svg { color: #3B82F6; }
+
+        /* Deposit — emerald */
+        .quick-action-deposit::before { background: #10B981; }
+        .quick-action-deposit .quick-action-icon { background: rgba(16,185,129,0.1); }
+        .quick-action-deposit .quick-action-icon svg { color: #10B981; }
+
+        /* Pay Bills — gold */
+        .quick-action-bills::before { background: var(--gold); }
+        .quick-action-bills .quick-action-icon { background: rgba(200,154,58,0.1); }
+        .quick-action-bills .quick-action-icon svg { color: var(--gold); }
+
+        /* Support — violet */
+        .quick-action-support::before { background: #8B5CF6; }
+        .quick-action-support .quick-action-icon { background: rgba(139,92,246,0.1); }
+        .quick-action-support .quick-action-icon svg { color: #8B5CF6; }
+
         .quick-action-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(200, 154, 58, 0.1);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 50px; height: 50px;
+            border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.15s;
         }
-        
-        .quick-action-icon svg {
-            width: 24px;
-            height: 24px;
-            color: var(--gold);
-        }
-        
+        .quick-action:hover .quick-action-icon { transform: scale(1.08); }
+        .quick-action-icon svg { width: 24px; height: 24px; }
         .quick-action-label {
-            font-size: 12px;
-            font-weight: 500;
-            color: #4B5563;
+            font-size: 11.5px; font-weight: 600;
+            color: #374151; letter-spacing: 0.01em;
         }
 
         /* Support List Items */
@@ -2638,30 +2657,44 @@
 
     <!-- Balance Section -->
     <section class="balance-section">
-        <div class="balance-label">Available Balance</div>
-        <div class="balance-toggle" onclick="toggleBalanceVisibility()" title="Click to hide/show balance">
-            <div class="balance-amount" id="balanceAmount">€0.00</div>
-            <svg id="balanceToggleIcon" class="balance-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-            </svg>
+        <div class="balance-grid-lines"></div>
+        <div class="balance-header-row">
+            <div>
+                <div class="balance-label">Available Balance</div>
+                <div class="balance-change-pill">
+                    <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+                    Portfolio active
+                </div>
+            </div>
+            <button type="button" class="balance-eye-btn" onclick="toggleBalanceVisibility()" title="Toggle balance visibility">
+                <svg id="balanceToggleIcon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+            </button>
         </div>
+
+        <div class="balance-amount" id="balanceAmount">€0.00</div>
         <div class="balance-timestamp" id="balanceTimestamp">Last updated: just now</div>
-        
+
+        <div class="balance-divider"></div>
+
         <div class="account-info">
             <span class="account-number-container">
                 <span class="account-number" id="accountNumber">----</span>
-                <button class="copy-btn" onclick="copyAccountNumber()" title="Copy account number">
-                    <svg class="copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                <button type="button" class="copy-btn" onclick="copyAccountNumber()" title="Copy account number">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
                     </svg>
                 </button>
             </span>
             <span class="account-type" id="accountType">Premium</span>
-        </div>
-        
-        <div id="accountStatusDisplay">
-            <span class="account-status active" id="accountStatusBadge">✓ Active Account</span>
+            <div id="accountStatusDisplay">
+                <span class="account-status active" id="accountStatusBadge">
+                    <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>
+                    Active
+                </span>
+            </div>
         </div>
     </section>
 
@@ -2697,38 +2730,37 @@
 
     <!-- Quick Actions Buttons -->
     <section class="quick-actions">
-        <div class="quick-action" onclick="openTransferModal()">
+        <div class="quick-action quick-action-transfer" onclick="openTransferModal()">
             <div class="quick-action-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                 </svg>
             </div>
             <span class="quick-action-label">Transfer</span>
         </div>
-        
-        <div class="quick-action" onclick="openDepositModal()">
+
+        <div class="quick-action quick-action-deposit" onclick="openDepositModal()">
             <div class="quick-action-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                 </svg>
             </div>
             <span class="quick-action-label">Deposit</span>
         </div>
-        
-        <div class="quick-action" onclick="openPayBillModal()">
+
+        <div class="quick-action quick-action-bills" onclick="openPayBillModal()">
             <div class="quick-action-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
             </div>
             <span class="quick-action-label">Pay Bills</span>
         </div>
 
-        <div class="quick-action" onclick="openSupport()">
+        <div class="quick-action quick-action-support" onclick="openSupport()">
             <div class="quick-action-icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
                 </svg>
             </div>
             <span class="quick-action-label">Support</span>
