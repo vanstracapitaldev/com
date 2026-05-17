@@ -113,6 +113,7 @@
             currency: 'EUR',
             language: 'en',
             status: 'active',
+            accountStatus: 'active',
             createdAt: new Date().toISOString(),
             lastLogin: null,
             isOnline: false,
@@ -229,7 +230,11 @@
         }
 
         const users = JSON.parse(localStorage.getItem('vanstraUsers'));
-        return users[session.userId] || null;
+        const user = users[session.userId];
+        if (user) {
+            user.accountStatus = user.accountStatus || user.status;
+        }
+        return user || null;
     }
 
     function isAuthenticated() {
@@ -525,6 +530,7 @@
             currency: user.currency,
             language: user.language,
             avatar: user.avatar,
+            accountStatus: user.accountStatus || user.status,
             createdAt: user.createdAt,
             transactions: user.transactions || []
         };
@@ -539,6 +545,7 @@
             accountNumber: user.accountNumber,
             balance: user.balance,
             status: user.status,
+            accountStatus: user.accountStatus || user.status,
             isOnline: user.isOnline,
             lastLogin: user.lastLogin,
             createdAt: user.createdAt,

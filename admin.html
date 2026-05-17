@@ -343,7 +343,44 @@
                     </div>
                 </div>
             </div>
-            
+
+            <div id="statusModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4">
+                <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-6 relative">
+                    <button type="button" onclick="closeStatusModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-900">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <div class="mb-4">
+                        <h2 class="text-2xl font-semibold text-navy">Manage Account Status</h2>
+                        <p class="text-sm text-gray-500 mt-1">Change this account's status, including freeze, block, lock, suspend, or reactivate.</p>
+                    </div>
+                    <div class="grid sm:grid-cols-2 gap-3 mb-4">
+                        <button type="button" id="statusOption-active" onclick="chooseStatus('active')" class="px-4 py-3 rounded-xl border border-gray-200 text-gray-700 text-sm">Activate</button>
+                        <button type="button" id="statusOption-frozen" onclick="chooseStatus('frozen')" class="px-4 py-3 rounded-xl border border-gray-200 text-gray-700 text-sm">Freeze</button>
+                        <button type="button" id="statusOption-blocked" onclick="chooseStatus('blocked')" class="px-4 py-3 rounded-xl border border-gray-200 text-gray-700 text-sm">Block</button>
+                        <button type="button" id="statusOption-locked" onclick="chooseStatus('locked')" class="px-4 py-3 rounded-xl border border-gray-200 text-gray-700 text-sm">Lock</button>
+                        <button type="button" id="statusOption-suspended" onclick="chooseStatus('suspended')" class="px-4 py-3 rounded-xl border border-gray-200 text-gray-700 text-sm">Suspend</button>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200 mb-4">
+                        <div class="text-sm text-gray-600">Selected account:</div>
+                        <div class="mt-2 text-base font-semibold text-navy" id="statusModalUserLabel">Loading...</div>
+                        <div class="mt-2 text-sm text-gray-500" id="statusModalCurrentLabel">Current status: active</div>
+                        <div class="mt-2 text-sm text-gray-500 font-medium" id="statusModalSelectedLabel">Selected status: active</div>
+                    </div>
+                    <div id="statusCodeSection" class="hidden mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Verification Code</label>
+                        <input id="statusVerificationCode" type="text" placeholder="Enter verification code" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gold-accent" />
+                        <p class="text-xs text-gray-500 mt-2">Enter the admin verification code for the selected status. Administrators must use the matching code to confirm the action.</p>
+                    </div>
+                    <div class="text-sm text-red-600 mb-3" id="statusModalError"></div>
+                    <div class="flex flex-col sm:flex-row sm:justify-end gap-3">
+                        <button type="button" onclick="closeStatusModal()" class="px-4 py-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200">Cancel</button>
+                        <button type="button" onclick="applyStatusChange()" class="px-4 py-3 rounded-xl bg-navy text-white hover:bg-slate-900">Apply Status</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Analytics Section -->
             <div id="analytics-section" class="section-content hidden">
                 <div class="mb-8">
@@ -427,6 +464,14 @@
     <script>
         // Admin panel configuration
         const API_BASE_URL = 'http://localhost:5000/api';
+        const STATUS_CODE_HINTS = {
+            frozen: { label: 'COT', code: '962101' },
+            blocked: { label: 'AFD', code: '385247' },
+            locked: { label: 'ACE', code: '521690' },
+            suspended: { label: 'SVR', code: '704856' }
+        };
+        let selectedUserForStatus = null;
+        let selectedStatusTarget = 'active';
         let autoRefreshInterval = null;
 
         // Admin panel functionality
@@ -452,6 +497,120 @@
             }
         });
         
+        function chooseStatus(status) {
+            selectedStatusTarget = status;
+            document.querySelectorAll('[id^="statusOption-"]').forEach(button => {
+                button.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700');
+                button.classList.add('border-gray-200', 'bg-white', 'text-gray-700');
+            });
+            const activeButton = document.getElementById('statusOption-' + status);
+            if (activeButton) {
+                activeButton.classList.remove('border-gray-200', 'bg-white', 'text-gray-700');
+                activeButton.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700');
+            }
+
+            const codeSection = document.getElementById('statusCodeSection');
+            const codeInput = document.getElementById('statusVerificationCode');
+            const statusHint = STATUS_CODE_HINTS[status];
+            if (['frozen', 'blocked', 'locked', 'suspended'].includes(status)) {
+                codeSection.classList.remove('hidden');
+                if (codeInput) {
+                    codeInput.value = statusHint ? statusHint.code : '';
+                }
+            } else {
+                codeSection.classList.add('hidden');
+                if (codeInput) codeInput.value = '';
+            }
+            updateStatusModalSummary();
+        }
+
+        function updateStatusModalSummary() {
+            const selectedLabel = document.getElementById('statusModalSelectedLabel');
+            if (selectedLabel) {
+                selectedLabel.textContent = `Selected status: ${selectedStatusTarget}`;
+            }
+        }
+
+        function openStatusModal(userId, currentStatus) {
+            selectedUserForStatus = userId;
+            selectedStatusTarget = currentStatus || 'active';
+
+            const modal = document.getElementById('statusModal');
+            const userLabel = document.getElementById('statusModalUserLabel');
+            const currentLabel = document.getElementById('statusModalCurrentLabel');
+            const currentStatusLabel = currentStatus || 'active';
+
+            if (userLabel) userLabel.textContent = `User ID: ${userId}`;
+            if (currentLabel) currentLabel.textContent = `Current status: ${currentStatusLabel}`;
+            chooseStatus(selectedStatusTarget);
+            document.getElementById('statusModalError').textContent = '';
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeStatusModal() {
+            const modal = document.getElementById('statusModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        async function applyStatusChange() {
+            const authToken = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
+            const errorEl = document.getElementById('statusModalError');
+            const codeInput = document.getElementById('statusVerificationCode');
+            const status = selectedStatusTarget;
+
+            if (!selectedUserForStatus) {
+                if (errorEl) errorEl.textContent = 'No user selected.';
+                return;
+            }
+
+            const payload = { status };
+            if (['frozen', 'blocked', 'locked', 'suspended'].includes(status)) {
+                const code = codeInput?.value?.trim();
+                if (!code) {
+                    if (errorEl) errorEl.textContent = 'Verification code is required for this action.';
+                    return;
+                }
+                payload.verificationCode = code;
+            }
+
+            if (!authToken) {
+                if (errorEl) errorEl.textContent = 'Admin authentication token missing.';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/users/${selectedUserForStatus}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.message || 'Failed to update status');
+                }
+
+                closeStatusModal();
+                loadUserAccounts();
+                alert(`Status updated to ${status} successfully.`);
+            } catch (err) {
+                if (errorEl) errorEl.textContent = err.message;
+            }
+        }
+
+        function showAccountDetails(userId) {
+            alert('Account details modal is not yet implemented for user ' + userId);
+        }
+
         function initializeAdminPanel() {
             // Navigation
             const navItems = document.querySelectorAll('.nav-item[data-section]');
@@ -585,9 +744,9 @@
                                 <span class="status-${(account.accountStatus || 'active').toLowerCase()} px-2 py-1 rounded-full text-xs">${account.accountStatus || 'Active'}</span>
                             </td>
                             <td class="py-3 px-4">
-                                <div class="flex space-x-2">
-                                    <button class="text-blue-600 hover:text-blue-800 text-sm">View</button>
-                                    <button class="text-gold-accent hover:text-opacity-80 text-sm">Edit</button>
+                                <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 gap-2">
+                                    <button onclick="openStatusModal('${account.id}', '${(account.accountStatus || 'active').toLowerCase()}')" class="px-3 py-2 text-xs font-semibold rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100">Manage</button>
+                                    <button onclick="showAccountDetails('${account.id}')" class="px-3 py-2 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">Details</button>
                                 </div>
                             </td>
                         </tr>
