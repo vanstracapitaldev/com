@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transaction - Vanstra Bank</title>
+    <script>(function(){var t=localStorage.getItem('vanstraTheme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -74,6 +75,25 @@
         .icon-wrap-red    { background:#FEF2F2; }
         .perforation-inset { margin:0 1.25rem; }
         .toast-hidden { display:none; }
+
+        /* ===== Dark Theme ===== */
+        [data-theme="dark"] body { background: #0C1220; color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .amount-hero-desc { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .receipt-card { background: #182030; }
+        [data-theme="dark"] .receipt-header { background: rgba(255,255,255,0.04); border-bottom-color: rgba(255,255,255,0.07); }
+        [data-theme="dark"] .receipt-row { border-bottom-color: rgba(255,255,255,0.07); }
+        [data-theme="dark"] .receipt-label { color: rgba(255,255,255,0.45); }
+        [data-theme="dark"] .receipt-value { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .perforation { background: #182030; }
+        [data-theme="dark"] .perforation::before,
+        [data-theme="dark"] .perforation::after { background: #0C1220; }
+        [data-theme="dark"] .perforation-line { border-top-color: rgba(255,255,255,0.1); }
+        [data-theme="dark"] .action-strip-btn { background: #182030; }
+        [data-theme="dark"] .action-strip-btn:active { background: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .action-strip-btn span { color: rgba(255,255,255,0.7); }
+        [data-theme="dark"] .note-section { background: #182030; }
+        [data-theme="dark"] .note-label { color: rgba(255,255,255,0.6); }
+        [data-theme="dark"] .note-input { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
     </style>
 </head>
 <body>

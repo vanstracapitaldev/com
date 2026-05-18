@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wealth - Vanstra Bank</title>
     <meta name="description" content="Manage your investments and portfolio with Vanstra Wealth.">
+    <script>(function(){var t=localStorage.getItem('vanstraTheme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -160,6 +161,41 @@
             .loan-option { padding: 0.7rem 0.35rem; }
             .invest-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
         }
+
+        /* ===== Dark Theme ===== */
+        [data-theme="dark"] body { background: #0C1220; color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .section-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .chart-section { background: #182030; }
+        [data-theme="dark"] .chart-tab { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.55); }
+        [data-theme="dark"] .asset-card { background: #182030; }
+        [data-theme="dark"] .asset-name { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .asset-bar-wrap { background: rgba(255,255,255,0.1); }
+        [data-theme="dark"] .asset-val { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .loan-card { background: #182030; }
+        [data-theme="dark"] .loan-option { background: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .loan-option.selected,
+        [data-theme="dark"] .loan-option:active { background: rgba(59,130,246,0.15); border-color: #3B82F6; }
+        [data-theme="dark"] .loan-amount-text { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .loan-dur { color: rgba(255,255,255,0.45); }
+        [data-theme="dark"] .savings-card { background: #182030; }
+        [data-theme="dark"] .savings-name { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .savings-bar-wrap { background: rgba(255,255,255,0.1); }
+        [data-theme="dark"] .savings-meta { color: rgba(255,255,255,0.4); }
+        [data-theme="dark"] .form-input { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .form-label { color: rgba(255,255,255,0.7); }
+        [data-theme="dark"] .form-hint { color: rgba(255,255,255,0.45); }
+        [data-theme="dark"] .loan-summary-box { background: rgba(59,130,246,0.1); }
+        [data-theme="dark"] .loan-summary-label { color: rgba(255,255,255,0.6); }
+        [data-theme="dark"] .loan-summary-term { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .form-disclaimer { color: rgba(255,255,255,0.45); }
+        [data-theme="dark"] .invest-intro { color: rgba(255,255,255,0.55); }
+        [data-theme="dark"] .invest-option-btn.stocks  { background: rgba(200,154,58,0.1); }
+        [data-theme="dark"] .invest-option-btn.crypto  { background: rgba(139,92,246,0.1); }
+        [data-theme="dark"] .invest-option-btn.etfs    { background: rgba(16,185,129,0.1); }
+        [data-theme="dark"] .invest-option-btn.savings { background: rgba(59,130,246,0.1); }
+        [data-theme="dark"] .invest-name { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .invest-desc { color: rgba(255,255,255,0.5); }
+        @media (min-width: 600px) { [data-theme="dark"] body { box-shadow: 0 0 40px rgba(0,0,0,0.5); } }
     </style>
 </head>
 <body>

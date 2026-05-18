@@ -6,6 +6,7 @@
     <title>Profile - Vanstra Bank</title>
     <meta name="description" content="Manage your Vanstra Bank profile and account settings.">
     
+    <script>(function(){var t=localStorage.getItem('vanstraTheme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script>
     <!-- Custom Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -430,6 +431,82 @@
 
         /* Form error messages */
         .form-error { color: #EF4444; font-size: 0.8125rem; margin: -0.5rem 0 1rem; display: none; }
+
+        /* Theme Picker */
+        .theme-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; padding: 1.25rem; }
+        .theme-option {
+            border-radius: 16px; border: 2px solid transparent;
+            background: #F8F9FA; padding: 1rem;
+            cursor: pointer; display: flex; flex-direction: column;
+            align-items: center; gap: 0.75rem;
+            transition: all 0.2s; font-family: inherit;
+            font-weight: 600; font-size: 13px; color: #374151;
+        }
+        .theme-option.active { border-color: var(--gold); background: rgba(200,154,58,0.06); color: var(--gold); }
+        .theme-preview {
+            width: 100%; height: 60px; border-radius: 10px;
+            position: relative; overflow: hidden;
+        }
+        .theme-preview-light { background: #F5F6FA; border: 1px solid #E5E7EB; }
+        .theme-preview-light::before {
+            content: ''; position: absolute;
+            top: 8px; left: 8px; right: 8px; height: 14px;
+            background: #041225; border-radius: 4px;
+        }
+        .theme-preview-light::after {
+            content: ''; position: absolute;
+            top: 30px; left: 8px; right: 8px; height: 20px;
+            background: #fff; border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .theme-preview-dark { background: #0C1220; border: 1px solid rgba(255,255,255,0.1); }
+        .theme-preview-dark::before {
+            content: ''; position: absolute;
+            top: 8px; left: 8px; right: 8px; height: 14px;
+            background: #041225; border-radius: 4px;
+        }
+        .theme-preview-dark::after {
+            content: ''; position: absolute;
+            top: 30px; left: 8px; right: 8px; height: 20px;
+            background: #182030; border-radius: 6px;
+        }
+
+        /* === Dark Theme Overrides === */
+        [data-theme="dark"] body { background: #0C1220; color: rgba(255,255,255,0.92); }
+        [data-theme="dark"] .card { background: #182030; border-color: rgba(255,255,255,0.07); box-shadow: 0 2px 16px rgba(0,0,0,0.3); }
+        [data-theme="dark"] .card-header { border-bottom-color: rgba(255,255,255,0.07); }
+        [data-theme="dark"] .card-title { color: rgba(255,255,255,0.92); }
+        [data-theme="dark"] .info-item { border-bottom-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .info-icon { background: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .info-icon svg { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .info-label { color: rgba(255,255,255,0.4); }
+        [data-theme="dark"] .info-value { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .menu-item { border-bottom-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .menu-item:hover,
+        [data-theme="dark"] .menu-item:active { background: rgba(255,255,255,0.04); }
+        [data-theme="dark"] .menu-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .menu-subtitle { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .menu-arrow { color: rgba(255,255,255,0.2); }
+        [data-theme="dark"] .toggle-wrap { border-bottom-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .toggle-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .toggle-sub { color: rgba(255,255,255,0.45); }
+        [data-theme="dark"] .toggle-slider { background: rgba(255,255,255,0.15); }
+        [data-theme="dark"] .modal-sheet { background: #182030; }
+        [data-theme="dark"] .modal-header { border-bottom-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .modal-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .modal-close { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+        [data-theme="dark"] .form-input { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .form-label { color: rgba(255,255,255,0.7); }
+        [data-theme="dark"] .btn-logout { background: transparent; color: #EF4444; border-color: rgba(239,68,68,0.3); }
+        [data-theme="dark"] .btn-logout:hover { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.5); }
+        [data-theme="dark"] .security-item { border-bottom-color: rgba(255,255,255,0.07); }
+        [data-theme="dark"] .security-item:active { background: rgba(255,255,255,0.04); }
+        [data-theme="dark"] .option-btn { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.85); }
+        [data-theme="dark"] .option-btn:active { background: rgba(255,255,255,0.1); }
+        [data-theme="dark"] .option-name { color: rgba(255,255,255,0.85); }
+        [data-theme="dark"] .theme-option { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); }
+        [data-theme="dark"] .theme-option.active { border-color: var(--gold); background: rgba(200,154,58,0.1); color: var(--gold); }
+        @media (min-width: 768px) { [data-theme="dark"] body { box-shadow: 0 0 40px rgba(0,0,0,0.4); } }
     </style>
 </head>
 <body>
@@ -602,6 +679,23 @@
                 <div class="menu-subtitle">Password, PIN, 2FA</div>
             </div>
             <svg class="menu-arrow" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </div>
+    </div>
+
+    <!-- Appearance Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Appearance</h2>
+        </div>
+        <div class="theme-picker">
+            <button type="button" class="theme-option" id="themeLight" onclick="setTheme('light')">
+                <div class="theme-preview theme-preview-light"></div>
+                <span>Light</span>
+            </button>
+            <button type="button" class="theme-option" id="themeDark" onclick="setTheme('dark')">
+                <div class="theme-preview theme-preview-dark"></div>
+                <span>Dark</span>
+            </button>
         </div>
     </div>
 
@@ -922,10 +1016,28 @@
 
         let currentUser = null;
 
+        // Theme management
+        function setTheme(theme) {
+            localStorage.setItem('vanstraTheme', theme);
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            updateThemeUI(theme);
+        }
+        function updateThemeUI(theme) {
+            const lightBtn = document.getElementById('themeLight');
+            const darkBtn  = document.getElementById('themeDark');
+            if (lightBtn) lightBtn.classList.toggle('active', theme !== 'dark');
+            if (darkBtn)  darkBtn.classList.toggle('active',  theme === 'dark');
+        }
+
         // Load profile data
         document.addEventListener('DOMContentLoaded', function() {
             loadProfileData();
             loadNotifPrefs();
+            updateThemeUI(localStorage.getItem('vanstraTheme') || 'light');
         });
 
         function loadProfileData() {

@@ -6,6 +6,7 @@
     <title>Dashboard - Vanstra Bank</title>
     <meta name="description" content="Your Vanstra Bank dashboard. View balances, transfer money, pay bills, and manage your finances.">
     
+    <script>(function(){var t=localStorage.getItem('vanstraTheme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -111,6 +112,9 @@
             align-items: center;
             gap: 0.5rem;
             flex-shrink: 0;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 0.875rem;
+            margin-left: 0.25rem;
         }
 
         .header-icon-btn {
@@ -226,14 +230,6 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: 0.25rem;
-        }
-        .balance-change-pill {
-            display: inline-flex; align-items: center; gap: 0.25rem;
-            background: rgba(74,222,128,0.15);
-            border: 1px solid rgba(74,222,128,0.25);
-            border-radius: 999px;
-            padding: 0.2rem 0.6rem;
-            font-size: 11px; font-weight: 600; color: #4ade80;
         }
         .balance-eye-btn {
             background: rgba(255,255,255,0.08);
@@ -2629,6 +2625,118 @@
                 height: 20px;
             }
         }
+
+        /* ===== Dark Theme Overrides ===== */
+        [data-theme="dark"] body { background: #0C1220; color: rgba(255,255,255,0.9); }
+        /* Quick actions */
+        [data-theme="dark"] .quick-action { background: #182030; border-color: rgba(255,255,255,0.07); }
+        [data-theme="dark"] .quick-action:hover { box-shadow: 0 10px 28px rgba(0,0,0,0.4); }
+        [data-theme="dark"] .quick-action-label { color: rgba(255,255,255,0.8); }
+        /* Transactions */
+        [data-theme="dark"] .transactions-card { background: #182030; }
+        [data-theme="dark"] .transaction-item { border-bottom-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .transaction-item:active { background: rgba(255,255,255,0.04); }
+        [data-theme="dark"] .transaction-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .transaction-meta { color: rgba(255,255,255,0.45); }
+        [data-theme="dark"] .transaction-status { color: rgba(255,255,255,0.35); }
+        [data-theme="dark"] .transaction-modal { background: #182030; }
+        [data-theme="dark"] .transaction-modal-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .transaction-modal-close { color: rgba(255,255,255,0.7); }
+        /* Sections */
+        [data-theme="dark"] .section-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .section-heading { border-bottom-color: rgba(255,255,255,0.07); }
+        [data-theme="dark"] .section-heading span { color: rgba(255,255,255,0.9); }
+        /* Support */
+        [data-theme="dark"] .support-item { background: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .support-item:active { background: rgba(255,255,255,0.09); }
+        [data-theme="dark"] .support-icon { background: rgba(255,255,255,0.06); box-shadow: none; }
+        [data-theme="dark"] .support-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .support-subtitle { color: rgba(255,255,255,0.5); }
+        /* Modals */
+        [data-theme="dark"] .modal-sheet { background: #182030; }
+        [data-theme="dark"] .modal-header { border-bottom-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .modal-title { color: rgba(255,255,255,0.9) !important; }
+        [data-theme="dark"] .modal-close { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+        /* Forms */
+        [data-theme="dark"] .form-input,
+        [data-theme="dark"] .form-select { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .form-label { color: rgba(255,255,255,0.75); }
+        [data-theme="dark"] .input-hint { color: rgba(255,255,255,0.45); }
+        [data-theme="dark"] .input-hint-small { color: rgba(255,255,255,0.35); }
+        /* Buttons */
+        [data-theme="dark"] .btn-secondary { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); }
+        [data-theme="dark"] .btn-cancel { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.75); }
+        /* PIN pad */
+        [data-theme="dark"] .pin-key { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .pin-box { border-color: rgba(255,255,255,0.15); background: transparent; }
+        [data-theme="dark"] .progress-step { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.55); }
+        /* Announcements */
+        [data-theme="dark"] .announcement-card { background: #182030; border-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .announcement-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .announcement-text { color: rgba(255,255,255,0.5); }
+        /* Notifications panel */
+        [data-theme="dark"] .notification-tabs { border-bottom-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .notification-tab { color: rgba(255,255,255,0.4); }
+        [data-theme="dark"] .notification-transaction-item { border-bottom-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .notification-transaction-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .notification-transaction-meta { color: rgba(255,255,255,0.4); }
+        [data-theme="dark"] .notification-report-card { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .notification-report-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .notification-report-stat-label { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .notification-report-stat-value { color: rgba(255,255,255,0.9); }
+        /* Virtual card promo */
+        [data-theme="dark"] .vc-promo-card { background: #182030; border-color: rgba(255,255,255,0.07); }
+        [data-theme="dark"] .vc-promo-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .vc-promo-sub { color: rgba(255,255,255,0.5); }
+        /* Services */
+        [data-theme="dark"] .service-icon-wrap { background: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .service-label { color: rgba(255,255,255,0.7); }
+        /* Receipt */
+        [data-theme="dark"] .receipt { background: #182030; }
+        [data-theme="dark"] .receipt-body { background: #182030; }
+        [data-theme="dark"] .receipt-row { border-bottom-color: rgba(255,255,255,0.07); }
+        [data-theme="dark"] .receipt-value { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .receipt-hero { background: linear-gradient(135deg, #182030 0%, #1e2940 100%); border-bottom-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .receipt-hero-amount { color: rgba(255,255,255,0.95); }
+        [data-theme="dark"] .receipt-hero-sub { color: rgba(255,255,255,0.6); }
+        [data-theme="dark"] .receipt-footer { background: rgba(255,255,255,0.04); border-top-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); }
+        [data-theme="dark"] .receipt-timeline { background: rgba(255,255,255,0.03); border-bottom-color: rgba(255,255,255,0.07); }
+        [data-theme="dark"] .timeline-track { background: rgba(255,255,255,0.12); }
+        [data-theme="dark"] .receipt-meta-icon { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .receipt-meta-value { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .receipt-mono { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .receipt-share-btn { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
+        [data-theme="dark"] .receipt-share-btn:hover { background: rgba(255,255,255,0.12); }
+        /* Transfer modal */
+        [data-theme="dark"] .transfer-modal-body { background: #182030; color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .transfer-panel-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .transfer-search { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); }
+        [data-theme="dark"] .transfer-search input { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .beneficiary-card { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); }
+        [data-theme="dark"] .beneficiary-card:hover { background: rgba(255,255,255,0.1); }
+        [data-theme="dark"] .beneficiary-name { color: rgba(255,255,255,0.6); }
+        [data-theme="dark"] .action-item { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .action-item:hover { background: rgba(255,255,255,0.09); }
+        [data-theme="dark"] .action-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .action-desc { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .recent-item { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .recent-item:hover { background: rgba(255,255,255,0.09); }
+        [data-theme="dark"] .recent-name { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .recent-meta { color: rgba(255,255,255,0.4); }
+        [data-theme="dark"] .account-display { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+        [data-theme="dark"] .account-display-label { color: rgba(255,255,255,0.5); }
+        /* Upload */
+        [data-theme="dark"] .upload-box { background: rgba(255,255,255,0.05); }
+        [data-theme="dark"] .upload-box-label { color: rgba(255,255,255,0.7); }
+        [data-theme="dark"] .upload-panel { background: rgba(200,154,58,0.06); }
+        [data-theme="dark"] .upload-panel p { color: rgba(255,255,255,0.55); }
+        /* QR */
+        [data-theme="dark"] .qr-placeholder { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); }
+        [data-theme="dark"] .qr-account-number { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .qr-account-display { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .beneficiary-empty-state,
+        [data-theme="dark"] .recent-empty-state { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+        @media (min-width: 768px) { [data-theme="dark"] body { box-shadow: 0 0 40px rgba(0,0,0,0.5); } }
     </style>
 </head>
 <body>
@@ -2661,10 +2769,6 @@
         <div class="balance-header-row">
             <div>
                 <div class="balance-label">Available Balance</div>
-                <div class="balance-change-pill">
-                    <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
-                    Portfolio active
-                </div>
             </div>
             <button type="button" class="balance-eye-btn" onclick="toggleBalanceVisibility()" title="Toggle balance visibility">
                 <svg id="balanceToggleIcon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -3999,6 +4103,7 @@
             if (greetingEl) greetingEl.textContent = getTimeBasedGreeting();
             const usernameEl = document.getElementById('usernameDisplay');
             if (usernameEl) usernameEl.textContent = ', ' + currentUser.fullName.split(' ')[0];
+
 
             const balanceAmountEl = document.getElementById('balanceAmount');
             if (balanceAmountEl) balanceAmountEl.textContent = formatBalanceDisplay(currentUser.balance);

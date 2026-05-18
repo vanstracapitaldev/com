@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statement - Vanstra Bank</title>
+    <script>(function(){var t=localStorage.getItem('vanstraTheme');if(t==='dark')document.documentElement.setAttribute('data-theme','dark');})()</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -123,6 +124,29 @@
             .txn-name { font-size: 0.8125rem; }
             .txn-amount { font-size: 0.875rem; }
         }
+
+        /* ===== Dark Theme ===== */
+        [data-theme="dark"] body { background: #0C1220; color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .period-tab { background: #182030; border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
+        [data-theme="dark"] .filter-btn { background: #182030; border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
+        [data-theme="dark"] .filter-bar-label { color: rgba(255,255,255,0.75); }
+        [data-theme="dark"] .date-group-header { background: #0C1220; color: rgba(255,255,255,0.35); }
+        [data-theme="dark"] .txn-row { background: #182030; border-bottom-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .txn-row:active { background: rgba(255,255,255,0.05); }
+        [data-theme="dark"] .txn-name { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .txn-amount.debit { color: rgba(255,255,255,0.85); }
+        [data-theme="dark"] .empty-txn-title { color: rgba(255,255,255,0.7); }
+        [data-theme="dark"] .export-option { border-bottom-color: rgba(255,255,255,0.07); }
+        [data-theme="dark"] .export-option:active { background: rgba(255,255,255,0.04); }
+        [data-theme="dark"] .export-title { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .export-sub { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .export-desc { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .custom-date-wrap { background: #182030; border-color: rgba(255,255,255,0.1); }
+        [data-theme="dark"] .custom-date-label { color: rgba(255,255,255,0.7); }
+        [data-theme="dark"] .custom-date-input { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .filter-chip { background: #182030; border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); }
+        [data-theme="dark"] .filter-section-label { color: rgba(255,255,255,0.75); }
+        [data-theme="dark"] .filter-amount-input { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); }
     </style>
 </head>
 <body>
