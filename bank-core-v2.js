@@ -342,6 +342,32 @@
         return { success: true };
     }
 
+    // Persist changes to an existing user record (e.g. balance updates).
+    function updateUser(updatedUser) {
+        if (!updatedUser || !updatedUser.id) {
+            return { success: false, error: 'Invalid user' };
+        }
+        const users = JSON.parse(localStorage.getItem('vanstraUsers') || '{}');
+        const existing = users[updatedUser.id];
+        if (!existing) {
+            return { success: false, error: 'User not found' };
+        }
+        // Merge so existing fields are preserved
+        users[updatedUser.id] = { ...existing, ...updatedUser };
+        localStorage.setItem('vanstraUsers', JSON.stringify(users));
+
+        // Keep the lightweight cached copy in sync if present
+        try {
+            const cached = JSON.parse(localStorage.getItem('user') || 'null');
+            if (cached && cached.id === updatedUser.id) {
+                localStorage.setItem('user', JSON.stringify({ ...cached, ...updatedUser }));
+            }
+        } catch (e) { /* ignore */ }
+
+        emit('user_updated', { userId: updatedUser.id, user: sanitizeForAdmin(users[updatedUser.id]) });
+        return { success: true, user: users[updatedUser.id] };
+    }
+
     // ==================== TRANSACTIONS ====================
 
     function transfer(userId, pin, transferData) {
@@ -639,7 +665,8 @@
         isAuthenticated,
         updateAvatar,
         updateProfile,
-        
+        updateUser,
+
         // PIN
         verifyPin,
         

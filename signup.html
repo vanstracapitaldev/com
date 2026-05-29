@@ -732,6 +732,33 @@
 
                 <div class="form-grid">
                     <div class="form-group">
+                        <label class="form-label">Country <span class="required">*</span></label>
+                        <select id="country" class="form-input" required>
+                            <option value="">Select Country</option>
+                            <option value="US">United States</option>
+                            <option value="GB">United Kingdom</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                            <option value="ES">Spain</option>
+                            <option value="PT">Portugal</option>
+                            <option value="NL">Netherlands</option>
+                            <option value="CH">Switzerland</option>
+                            <option value="NG">Nigeria</option>
+                            <option value="ZA">South Africa</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                            <option value="AE">United Arab Emirates</option>
+                            <option value="SG">Singapore</option>
+                            <option value="IN">India</option>
+                            <option value="JP">Japan</option>
+                            <option value="CN">China</option>
+                            <option value="KR">South Korea</option>
+                            <option value="BR">Brazil</option>
+                            <option value="ID">Indonesia</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label class="form-label">Preferred Language <span class="required">*</span></label>
                         <select id="language" class="form-input" required>
                             <option value="">Select Language</option>
@@ -909,8 +936,14 @@
             }
 
             if (step === 4) {
+                const country = document.getElementById('country').value;
                 const language = document.getElementById('language').value;
                 const currency = document.getElementById('currency').value;
+
+                if (!country) {
+                    showError('Please select your country');
+                    return false;
+                }
 
                 if (!language) {
                     showError('Please select your preferred language');
@@ -1014,6 +1047,7 @@
             const passwordConfirm = document.getElementById('passwordConfirm').value;
             const pin = document.getElementById('pin').value;
             const pinConfirm = document.getElementById('pinConfirm').value;
+            const country = document.getElementById('country').value;
             const language = document.getElementById('language').value;
             const currency = document.getElementById('currency').value;
 
@@ -1033,6 +1067,11 @@
             if (password === pin) {
                 showError('Login password cannot be the same as transaction PIN');
                 highlightPinError();
+                return;
+            }
+
+            if (!country) {
+                showError('Please select your country');
                 return;
             }
 

@@ -24,6 +24,7 @@
             --gold: #C89A3A;
         }
         
+        html { overflow-x: hidden; max-width: 100%; }
         body {
             font-family: 'Inter', sans-serif;
             background: #F8F9FA;
@@ -32,6 +33,7 @@
             padding: 0;
             padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
             overflow-x: hidden;
+            max-width: 100%;
         }
 
         h1, h2, h3, .balance-amount, .logo-text, .section-title, .modal-title {
@@ -89,33 +91,58 @@
             gap: 0.75rem;
         }
 
-        .header-left { flex: 1; min-width: 0; }
+        .header-content { gap: 0.55rem; }
 
-        .logo-text {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: -0.3px;
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        /* Avatar + tier badge */
+        .header-avatar-wrap { position: relative; flex-shrink: 0; cursor: pointer; }
+        .tier-badge {
+            position: absolute; right: -3px; bottom: -3px;
+            width: 19px; height: 19px; border-radius: 7px;
+            background: linear-gradient(135deg, #9F7AEA 0%, #6D28D9 100%);
+            border: 2px solid var(--navy);
+            display: flex; align-items: center; justify-content: center;
+            color: #FCD34D;
         }
+        .tier-badge svg { width: 11px; height: 11px; }
 
-        .welcome-greeting { font-weight: 700; color: rgba(255,255,255,0.9); }
-        .username-text    { font-weight: 600; color: var(--gold); }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-shrink: 0;
-            border-left: 1px solid rgba(255,255,255,0.1);
-            padding-left: 0.875rem;
-            margin-left: 0.25rem;
+        /* Search pill */
+        .header-search {
+            flex: 1; min-width: 0;
+            display: flex; align-items: center; gap: 0.5rem;
+            background: rgba(255,255,255,0.10);
+            border-radius: 999px;
+            padding: 0.6rem 0.9rem;
         }
+        .header-search .search-ic { width: 18px; height: 18px; color: rgba(255,255,255,0.5); flex-shrink: 0; }
+        .header-search input {
+            flex: 1; min-width: 0;
+            background: transparent; border: none; outline: none;
+            color: #fff; font-family: inherit; font-size: 0.92rem;
+        }
+        .header-search input::placeholder { color: rgba(255,255,255,0.5); }
+
+        /* Right-side actions */
+        .header-actions { display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0; }
+        .coins-pill {
+            display: flex; align-items: center; gap: 0.35rem;
+            background: #fff; border: none; border-radius: 999px;
+            padding: 3px 11px 3px 3px; cursor: pointer;
+        }
+        .coins-pill .coin {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: linear-gradient(135deg, #F5C24B 0%, #E0A82E 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: #7A5712;
+        }
+        .coins-pill .coin svg { width: 14px; height: 14px; }
+        .coins-count { font-size: 0.85rem; font-weight: 700; color: #0F172A; }
+        .header-ic-btn {
+            position: relative; background: none; border: none; cursor: pointer;
+            color: #fff; width: 34px; height: 34px; padding: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .header-ic-btn svg { width: 24px; height: 24px; }
+        .header-ic-btn:active { transform: scale(0.92); }
 
         .header-icon-btn {
             position: relative;
@@ -152,8 +179,8 @@
         }
 
         .user-avatar {
-            width: 38px;
-            height: 38px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
             display: flex;
@@ -161,10 +188,10 @@
             justify-content: center;
             cursor: pointer;
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.25);
             flex-shrink: 0;
         }
-        .user-avatar:hover { border-color: rgba(255,255,255,0.4); }
+        .header-user:hover .user-avatar { border-color: rgba(255,255,255,0.5); }
         
         .balance-hidden {
             filter: blur(8px);
@@ -179,9 +206,9 @@
         }
         
         .user-avatar .initials {
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
+            color: var(--navy);
+            font-weight: 700;
+            font-size: 15px;
         }
         
         /* Balance Section */
@@ -1939,22 +1966,56 @@
         .service-item:active { transform: scale(0.93); }
 
         .service-icon-wrap {
-            width: 52px;
-            height: 52px;
-            border-radius: 16px;
-            background: #F3F4F6;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #F1F3F8;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.35rem;
+            color: #1E2D6B;
         }
+        .service-icon-wrap svg { width: 24px; height: 24px; }
 
         .service-label {
             font-size: 0.7rem;
             font-weight: 500;
             color: #374151;
             text-align: center;
+            line-height: 1.25;
         }
+
+        /* ===== All Services sheet ===== */
+        .allsvc-body {
+            overflow-y: auto;
+            max-height: calc(90vh - 58px);
+            padding: 0.25rem 1rem 1.75rem;
+            -webkit-overflow-scrolling: touch;
+        }
+        .svc-cat-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin: 1.35rem 0 0.9rem;
+        }
+        .svc-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.1rem 0.5rem;
+        }
+
+        /* Service info modal */
+        .svc-info-body { padding: 1.5rem 1.5rem 2rem; text-align: center; }
+        .svc-info-icon {
+            width: 64px; height: 64px; margin: 0 auto 1rem; border-radius: 50%;
+            background: #F1F3F8; color: #1E2D6B;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .svc-info-icon svg { width: 30px; height: 30px; }
+        .svc-info-heading { font-size: 1.15rem; font-weight: 700; color: #111827; margin: 0 0 0.5rem; }
+        .svc-info-desc { font-size: 0.875rem; color: #6B7280; line-height: 1.55; margin: 0 0 1.5rem; }
 
         /* ===== QR FAB ===== */
         .qr-fab {
@@ -1984,35 +2045,65 @@
 
         /* QR Modal */
         .qr-modal-content {
-            text-align: center;
-            padding: 1.5rem 1.25rem 2rem;
+            padding: 1.25rem 1.25rem 1.75rem;
         }
 
-        .qr-placeholder {
-            width: 180px;
-            height: 180px;
-            margin: 1rem auto;
-            border: 2px solid #E5E7EB;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #FAFAFA;
-            flex-direction: column;
-            gap: 0.5rem;
+        .qr-identity {
+            display: flex; align-items: center; gap: 0.75rem;
+            justify-content: center; margin-bottom: 1.25rem;
+        }
+        .qr-avatar {
+            width: 46px; height: 46px; flex-shrink: 0; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: #041225; font-weight: 700; font-size: 15px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .qr-identity-text { text-align: left; min-width: 0; }
+        .qr-name { font-weight: 700; font-size: 1.05rem; color: #0F172A; line-height: 1.2; }
+        .qr-acctype { font-size: 0.78rem; color: #6B7280; margin-top: 2px; }
+
+        .qr-code-wrap {
+            width: 196px; height: 196px; margin: 0 auto; padding: 12px;
+            background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 16px rgba(15,23,42,0.06);
+        }
+        .qr-code-wrap img, .qr-code-wrap canvas { display: block; }
+        .qr-hint { font-size: 0.8rem; color: #9CA3AF; text-align: center; margin: 0.875rem 0 1.25rem; }
+
+        .qr-details {
+            background: #F8F9FB; border: 1px solid #EEF1F6;
+            border-radius: 14px; padding: 0 1rem; margin-bottom: 1.25rem;
+        }
+        .qr-detail-row {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 1rem; padding: 0.75rem 0; border-bottom: 1px solid #EEF1F6;
+        }
+        .qr-detail-row:last-child { border-bottom: none; }
+        .qr-detail-label { font-size: 0.78rem; color: #6B7280; flex-shrink: 0; }
+        .qr-detail-value {
+            font-size: 0.85rem; font-weight: 600; color: #0F172A;
+            text-align: right; word-break: break-all; letter-spacing: 0.02em;
+            min-width: 0;
         }
 
-        .qr-account-display {
-            font-size: 0.875rem;
-            color: #6B7280;
-            margin-bottom: 0.5rem;
+        .qr-actions { display: flex; gap: 0.75rem; }
+        .qr-action-btn {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            gap: 0.4rem; padding: 0.875rem 0.5rem; border-radius: 14px;
+            border: 1.5px solid #E5E7EB; background: #FFFFFF; color: #374151;
+            font-family: inherit; font-size: 0.8rem; font-weight: 600;
+            cursor: pointer; transition: background 0.18s, border-color 0.18s;
         }
+        .qr-action-btn svg { width: 22px; height: 22px; }
+        .qr-action-btn:hover { background: #F9FAFB; border-color: #D1D5DB; }
+        .qr-action-btn--primary { background: var(--navy); border-color: var(--navy); color: #FFFFFF; }
+        .qr-action-btn--primary:hover { background: #0a2342; border-color: #0a2342; }
 
-        .qr-account-number {
-            font-weight: 700;
-            color: #0F172A;
-            font-size: 1rem;
-            letter-spacing: 0.04em;
+        .qr-scan-content { padding: 1.25rem; }
+        .qr-reader {
+            width: 100%; border-radius: 14px; overflow: hidden;
+            background: #0B1220; min-height: 240px;
         }
 
         @media (min-width: 768px) {
@@ -2689,8 +2780,12 @@
         [data-theme="dark"] .vc-promo-title { color: rgba(255,255,255,0.9); }
         [data-theme="dark"] .vc-promo-sub { color: rgba(255,255,255,0.5); }
         /* Services */
-        [data-theme="dark"] .service-icon-wrap { background: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .service-icon-wrap { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.92); }
         [data-theme="dark"] .service-label { color: rgba(255,255,255,0.7); }
+        [data-theme="dark"] .svc-cat-title { color: rgba(255,255,255,0.4); }
+        [data-theme="dark"] .svc-info-icon { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.92); }
+        [data-theme="dark"] .svc-info-heading { color: rgba(255,255,255,0.92); }
+        [data-theme="dark"] .svc-info-desc { color: rgba(255,255,255,0.55); }
         /* Receipt */
         [data-theme="dark"] .receipt { background: #182030; }
         [data-theme="dark"] .receipt-body { background: #182030; }
@@ -2730,10 +2825,16 @@
         [data-theme="dark"] .upload-box-label { color: rgba(255,255,255,0.7); }
         [data-theme="dark"] .upload-panel { background: rgba(200,154,58,0.06); }
         [data-theme="dark"] .upload-panel p { color: rgba(255,255,255,0.55); }
-        /* QR */
-        [data-theme="dark"] .qr-placeholder { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); }
-        [data-theme="dark"] .qr-account-number { color: rgba(255,255,255,0.9); }
-        [data-theme="dark"] .qr-account-display { color: rgba(255,255,255,0.5); }
+        /* QR — keep the code itself on white for scannability */
+        [data-theme="dark"] .qr-code-wrap { background: #FFFFFF; border-color: rgba(255,255,255,0.12); }
+        [data-theme="dark"] .qr-name { color: rgba(255,255,255,0.92); }
+        [data-theme="dark"] .qr-acctype { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .qr-details { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+        [data-theme="dark"] .qr-detail-row { border-bottom-color: rgba(255,255,255,0.06); }
+        [data-theme="dark"] .qr-detail-label { color: rgba(255,255,255,0.5); }
+        [data-theme="dark"] .qr-detail-value { color: rgba(255,255,255,0.9); }
+        [data-theme="dark"] .qr-action-btn { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); }
+        [data-theme="dark"] .qr-action-btn:hover { background: rgba(255,255,255,0.09); }
         [data-theme="dark"] .beneficiary-empty-state,
         [data-theme="dark"] .recent-empty-state { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
         @media (min-width: 768px) { [data-theme="dark"] body { box-shadow: 0 0 40px rgba(0,0,0,0.5); } }
@@ -2743,22 +2844,33 @@
     <!-- Header -->
     <header class="app-header">
         <div class="header-content">
-            <div class="header-left">
-                <span class="logo-text">
-                    <span class="welcome-greeting" id="welcomeGreeting">Welcome</span><span class="username-text" id="usernameDisplay"></span>
-                </span>
-            </div>
-            <div class="header-right">
-                <button class="header-icon-btn" onclick="openNotifications()" aria-label="Notifications" title="Notifications">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                    </svg>
-                    <span class="notification-badge hidden" id="notificationBadge">3</span>
-                </button>
-                <div class="user-avatar" onclick="goToProfile()" id="userAvatarBtn" title="My Profile">
-                    <span id="userInitials" class="initials" style="color:white;font-weight:700;font-size:13px;">--</span>
+            <div class="header-avatar-wrap" onclick="goToProfile()" id="userAvatarBtn" title="My Profile">
+                <div class="user-avatar">
+                    <span id="userInitials" class="initials">--</span>
                     <img id="userAvatarImg" src="" alt="" class="hidden">
                 </div>
+                <span class="tier-badge" id="tierBadge" title="Member tier">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.47 5.01 5.53.8-4 3.9.94 5.49L12 15.1l-4.94 2.6.94-5.49-4-3.9 5.53-.8z"/></svg>
+                </span>
+            </div>
+
+            <div class="header-search">
+                <svg class="search-ic" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M21 21l-3.5-3.5"/></svg>
+                <input id="headerSearch" type="text" placeholder="Search" aria-label="Search services" onkeydown="if(event.key==='Enter')headerSearch()">
+            </div>
+
+            <div class="header-actions">
+                <button class="coins-pill" onclick="showToast('You have 0 reward points', 'info')" title="Reward points">
+                    <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v10M9.5 9.5h3.2a1.8 1.8 0 010 3.6H9.8"/></svg></span>
+                    <span class="coins-count" id="coinsCount">0</span>
+                </button>
+                <button class="header-ic-btn" onclick="window.location.href='statement.html'" aria-label="Insights" title="Insights">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a9 9 0 109 9h-9V3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M14 3.2A9 9 0 0120.8 10H14V3.2z"/></svg>
+                </button>
+                <button class="header-ic-btn" onclick="openNotifications()" aria-label="Notifications" title="Notifications">
+                    <svg fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8M8 14h5M21 12a8 8 0 01-11.5 7.2L4 21l1.8-5A8 8 0 1121 12z"/></svg>
+                    <span class="notification-badge hidden" id="notificationBadge">3</span>
+                </button>
             </div>
         </div>
     </header>
@@ -2899,40 +3011,71 @@
             <h2 class="section-title">Services</h2>
         </div>
         <div class="services-grid">
-            <div class="service-item" onclick="openTransferModal()">
-                <div class="service-icon-wrap">✈️</div>
-                <span class="service-label">Airlines</span>
+            <div class="service-item" onclick="openService('airtime')">
+                <div class="service-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.5"/><path stroke-linecap="round" d="M10.5 18h3"/></svg></div>
+                <span class="service-label">Airtime</span>
             </div>
-            <div class="service-item" onclick="openDepositModal()">
-                <div class="service-icon-wrap">📱</div>
-                <span class="service-label">Topup</span>
+            <div class="service-item" onclick="openService('betting')">
+                <div class="service-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1.2" fill="currentColor" stroke="none"/></svg></div>
+                <span class="service-label">Betting</span>
             </div>
-            <div class="service-item" onclick="openPayBillModal()">
-                <div class="service-icon-wrap">🌐</div>
-                <span class="service-label">Internet</span>
-            </div>
-            <div class="service-item" onclick="window.location.href='cards-v2.html'">
-                <div class="service-icon-wrap">💳</div>
-                <span class="service-label">Credit Cards</span>
-            </div>
-            <div class="service-item" onclick="openPayBillModal()">
-                <div class="service-icon-wrap">🚌</div>
-                <span class="service-label">Bus</span>
-            </div>
-            <div class="service-item" onclick="openPayBillModal()">
-                <div class="service-icon-wrap">📺</div>
+            <div class="service-item" onclick="openService('tv')">
+                <div class="service-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 3l4 4 4-4"/></svg></div>
                 <span class="service-label">TV</span>
             </div>
-            <div class="service-item" onclick="openPayBillModal()">
-                <div class="service-icon-wrap">☎️</div>
-                <span class="service-label">Landline</span>
+            <div class="service-item" onclick="openService('loan')">
+                <div class="service-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path stroke-linecap="round" d="M6 9.5h.01M18 14.5h.01"/></svg></div>
+                <span class="service-label">Loan</span>
             </div>
-            <div class="service-item" onclick="window.location.href='statement.html'">
-                <div class="service-icon-wrap">📄</div>
-                <span class="service-label">Statement</span>
+            <div class="service-item" onclick="openService('savings')">
+                <div class="service-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><ellipse cx="12" cy="6.5" rx="7" ry="3"/><path stroke-linecap="round" d="M5 6.5v11c0 1.66 3.13 3 7 3s7-1.34 7-3v-11M5 12c0 1.66 3.13 3 7 3s7-1.34 7-3"/></svg></div>
+                <span class="service-label">Savings</span>
+            </div>
+            <div class="service-item" onclick="openService('gift')">
+                <div class="service-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="12" rx="1.5"/><path stroke-linecap="round" stroke-linejoin="round" d="M3.5 12.5h17M12 8.5v12M12 8.5C12 6 10 4.5 8.6 5.3 7.2 6 8 8.5 12 8.5zm0 0c0-2.5 2-4 3.4-3.2C16.8 6 16 8.5 12 8.5z"/></svg></div>
+                <span class="service-label">Gift Cards</span>
+            </div>
+            <div class="service-item" onclick="openService('travel')">
+                <div class="service-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M4 10c0-3.5 3.6-6 8-6s8 2.5 8 6H4z"/></svg></div>
+                <span class="service-label">Travel &amp; Hotel</span>
+            </div>
+            <div class="service-item" onclick="openAllServices()">
+                <div class="service-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="6" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="18" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="6" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="18" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="6" cy="18" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="18" r="1.3" fill="currentColor" stroke="none"/><circle cx="18" cy="18" r="1.3" fill="currentColor" stroke="none"/></svg></div>
+                <span class="service-label">More</span>
             </div>
         </div>
     </section>
+
+    <!-- All Services Modal -->
+    <div id="allServicesModal" class="modal-overlay" onclick="closeModalOnOverlay(event,'allServicesModal')">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <h3 class="modal-title">All Services</h3>
+                <button class="modal-close" onclick="closeModal('allServicesModal')">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="allsvc-body" id="allServicesBody"></div>
+        </div>
+    </div>
+
+    <!-- Service Info Modal -->
+    <div id="serviceInfoModal" class="modal-overlay" onclick="closeModalOnOverlay(event,'serviceInfoModal')">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <h3 class="modal-title" id="svcInfoTitle">Service</h3>
+                <button class="modal-close" onclick="closeModal('serviceInfoModal')">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="svc-info-body">
+                <div class="svc-info-icon" id="svcInfoIcon"></div>
+                <h4 class="svc-info-heading" id="svcInfoHeading">Service</h4>
+                <p class="svc-info-desc" id="svcInfoDesc"></p>
+                <button type="button" class="btn btn-primary" id="svcInfoCta" onclick="serviceInfoNotify()">Notify me when available</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Recent Transactions -->
     <section>
@@ -2977,18 +3120,56 @@
                 </button>
             </div>
             <div class="qr-modal-content">
-                <p class="qr-account-display">Scan to send money to</p>
-                <p class="qr-account-number" id="qrAccountNumber">----</p>
-                <div class="qr-placeholder">
-                    <svg width="48" height="48" fill="none" stroke="#D1D5DB" viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="7" height="7" rx="1" stroke-width="1.5"/>
-                        <rect x="14" y="3" width="7" height="7" rx="1" stroke-width="1.5"/>
-                        <rect x="3" y="14" width="7" height="7" rx="1" stroke-width="1.5"/>
-                        <path d="M14 14h2v2h-2zM18 14h3v2h-3zM14 18h2v3h-2zM18 18h3v3h-3z" fill="#D1D5DB"/>
-                    </svg>
-                    <span style="font-size:0.75rem;color:#9CA3AF;">QR Code</span>
+                <div class="qr-identity">
+                    <div class="qr-avatar" id="qrAvatar">--</div>
+                    <div class="qr-identity-text">
+                        <div class="qr-name" id="qrFullName">—</div>
+                        <div class="qr-acctype" id="qrAccountType">Account</div>
+                    </div>
                 </div>
-                <p style="font-size:0.82rem;color:#6B7280;margin-top:0.5rem;">Share this code to receive payments instantly</p>
+
+                <div class="qr-code-wrap">
+                    <div id="qrCanvas" aria-label="Account QR code"></div>
+                </div>
+                <p class="qr-hint">Scan to send money to this account instantly</p>
+
+                <div class="qr-details">
+                    <div class="qr-detail-row">
+                        <span class="qr-detail-label">Account holder</span>
+                        <span class="qr-detail-value" id="qrHolder">—</span>
+                    </div>
+                    <div class="qr-detail-row">
+                        <span class="qr-detail-label">Account / IBAN</span>
+                        <span class="qr-detail-value" id="qrAccountNumber">----</span>
+                    </div>
+                </div>
+
+                <div class="qr-actions">
+                    <button type="button" class="qr-action-btn" onclick="shareAccountDetails()">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                        <span>Share details</span>
+                    </button>
+                    <button type="button" class="qr-action-btn qr-action-btn--primary" onclick="openQrScanner()">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h.01M4 4h4v4H4V4zm0 12h4v4H4v-4zm12-12h4v4h-4V4z"/></svg>
+                        <span>Scan to pay</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Scanner Modal -->
+    <div id="qrScanModal" class="modal-overlay" onclick="closeQrScannerOnOverlay(event)">
+        <div class="modal-sheet">
+            <div class="modal-header">
+                <h3 class="modal-title">Scan QR Code</h3>
+                <button class="modal-close" onclick="closeQrScanner()">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="qr-scan-content">
+                <div id="qrReader" class="qr-reader"></div>
+                <p id="qrScanStatus" class="qr-hint">Point your camera at another user's Vanstra QR code.</p>
             </div>
         </div>
     </div>
@@ -3453,7 +3634,7 @@
     <div id="payBillModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'payBillModal')">
         <div class="modal-sheet">
             <div class="modal-header">
-                <h3 class="modal-title">Pay Bill</h3>
+                <h3 class="modal-title" id="payBillTitle">Pay Bill</h3>
                 <button class="modal-close" onclick="closeModal('payBillModal')">
                     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -3796,6 +3977,8 @@
     <div id="toast" class="toast"></div>
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <script src="bank-core-v2.js"></script>
     <script>
         // Auto-create test users if none exist and auto-login
@@ -4103,7 +4286,7 @@
             const greetingEl = document.getElementById('welcomeGreeting');
             if (greetingEl) greetingEl.textContent = getTimeBasedGreeting();
             const usernameEl = document.getElementById('usernameDisplay');
-            if (usernameEl) usernameEl.textContent = ', ' + currentUser.fullName.split(' ')[0];
+            if (usernameEl) usernameEl.textContent = currentUser.fullName.split(' ')[0];
 
 
             const balanceAmountEl = document.getElementById('balanceAmount');
@@ -4127,10 +4310,14 @@
             const initialsEl = document.getElementById('userInitials');
             if (initialsEl) initialsEl.textContent = initials;
 
+            const avatarImg = document.getElementById('userAvatarImg');
             if (currentUser.avatar) {
-                const avatarImg = document.getElementById('userAvatarImg');
-                if (avatarImg) { avatarImg.src = currentUser.avatar; avatarImg.style.display = 'block'; }
+                // Show the uploaded picture (remove .hidden, which is display:none !important)
+                if (avatarImg) { avatarImg.src = currentUser.avatar; avatarImg.classList.remove('hidden'); avatarImg.style.display = 'block'; }
                 if (initialsEl) initialsEl.style.display = 'none';
+            } else {
+                if (avatarImg) { avatarImg.classList.add('hidden'); avatarImg.removeAttribute('src'); }
+                if (initialsEl) initialsEl.style.display = '';
             }
             
             // Update balance timestamp
@@ -4570,12 +4757,6 @@
                     <div class="announcement-icon">${announcement.icon}</div>
                     <h3 class="announcement-title">${announcement.title}</h3>
                     <p class="announcement-text">${announcement.text}</p>
-                    <div class="announcement-date">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="announcement-date-icon">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        ${announcement.date}
-                    </div>
                 </div>
             `).join('');
         }
@@ -5198,8 +5379,314 @@
             }
         });
 
+        // Services that don't yet have a dedicated flow
+        function comingSoonService(name) {
+            showToast(`${name} is coming soon`, 'info');
+        }
+
+        // ===== All Services sheet =====
+        const SVC_ICON = {
+            electricity: '<path stroke-linecap="round" stroke-linejoin="round" d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/>',
+            airtime: '<rect x="7" y="3" width="10" height="18" rx="2.5"/><path stroke-linecap="round" d="M10.5 18h3"/>',
+            internet: '<circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M3 12h18M12 3c2.6 2.6 2.6 15.4 0 18M12 3c-2.6 2.6-2.6 15.4 0 18"/>',
+            tv: '<rect x="3" y="7" width="18" height="12" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 3l4 4 4-4"/>',
+            betting: '<rect x="4" y="4" width="16" height="16" rx="3.5"/><circle cx="9" cy="9" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1.2" fill="currentColor" stroke="none"/>',
+            water: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3c4 5 6 8 6 11a6 6 0 01-12 0c0-3 2-6 6-11z"/>',
+            education: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4L2 9l10 5 10-5-10-5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 11.5V17c0 1.1 2.7 3 6 3s6-1.9 6-3v-5.5"/>',
+            government: '<path stroke-linecap="round" stroke-linejoin="round" d="M4 10l8-5 8 5M5 10v8M19 10v8M9.5 10v8M14.5 10v8M3.5 20h17"/>',
+            insurance: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 3v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>',
+            solar: '<rect x="4" y="4" width="16" height="11" rx="1"/><path stroke-linecap="round" d="M4 8h16M4 11.5h16M9.3 4v11M14.6 4v11M12 18v3M8 21h8"/>',
+            transport: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 11l1.6-4.6A2 2 0 018.5 5h7a2 2 0 011.9 1.4L19 11M4 11h16v6H4zM7.5 17v2M16.5 17v2"/>',
+            travel: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M4 10c0-3.5 3.6-6 8-6s8 2.5 8 6H4z"/>',
+            loan: '<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path stroke-linecap="round" d="M6 9.5h.01M18 14.5h.01"/>',
+            savings: '<ellipse cx="12" cy="6.5" rx="7" ry="3"/><path stroke-linecap="round" d="M5 6.5v11c0 1.66 3.13 3 7 3s7-1.34 7-3v-11M5 12c0 1.66 3.13 3 7 3s7-1.34 7-3"/>',
+            invest: '<path stroke-linecap="round" stroke-linejoin="round" d="M4 18l5-5 3 3 7-8M16 8h4v4"/>',
+            cards: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/>',
+            statement: '<rect x="5" y="3" width="14" height="18" rx="2"/><path stroke-linecap="round" d="M9 8h6M9 12h6M9 16h4"/>',
+            shopping: '<path stroke-linecap="round" stroke-linejoin="round" d="M6 8h12l-1 12H7L6 8z"/><path stroke-linecap="round" d="M9 8a3 3 0 016 0"/>',
+            gift: '<rect x="3.5" y="8.5" width="17" height="12" rx="1.5"/><path stroke-linecap="round" stroke-linejoin="round" d="M3.5 12.5h17M12 8.5v12M12 8.5C12 6 10 4.5 8.6 5.3 7.2 6 8 8.5 12 8.5zm0 0c0-2.5 2-4 3.4-3.2C16.8 6 16 8.5 12 8.5z"/>',
+            donation: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 20s-7-4.5-7-10a4 4 0 017-2.2A4 4 0 0119 10c0 5.5-7 10-7 10z"/>',
+            flight: '<path stroke-linecap="round" stroke-linejoin="round" d="M2 16l20-7-7 13-2-6-6-2-5 2z"/>'
+        };
+
+        const ALL_SERVICES = [
+            { title: 'Bills Payment', items: [
+                { l: 'Electricity', i: 'electricity', a: 'pay' },
+                { l: 'Airtime', i: 'airtime', a: 'pay' },
+                { l: 'Internet', i: 'internet', a: 'pay' },
+                { l: 'Cable TV', i: 'tv', a: 'pay' },
+                { l: 'Betting', i: 'betting', a: 'pay' },
+                { l: 'Water', i: 'water', a: 'pay' },
+                { l: 'Education', i: 'education', a: 'pay' },
+                { l: 'Government', i: 'government', a: 'pay' },
+                { l: 'Insurance', i: 'insurance', a: 'pay' },
+                { l: 'Solar', i: 'solar', a: 'pay' },
+                { l: 'Transport & Toll', i: 'transport', a: 'soon' },
+                { l: 'Travel & Hotel', i: 'travel', a: 'soon' }
+            ]},
+            { title: 'Finance', items: [
+                { l: 'Loans', i: 'loan', a: 'soon' },
+                { l: 'Savings', i: 'savings', a: 'soon' },
+                { l: 'Investments', i: 'invest', a: 'soon' },
+                { l: 'Cards', i: 'cards', a: 'cards' },
+                { l: 'Statements', i: 'statement', a: 'statement' }
+            ]},
+            { title: 'Lifestyle', items: [
+                { l: 'Shopping', i: 'shopping', a: 'soon' },
+                { l: 'Gift Cards', i: 'gift', a: 'pay' },
+                { l: 'Donations', i: 'donation', a: 'soon' },
+                { l: 'Flights', i: 'flight', a: 'soon' }
+            ]}
+        ];
+
+        // Per-service behaviour: open a contextual page/modal for the clicked service.
+        // type 'bill' → Pay Bill modal prefilled & retitled; 'page' → navigate;
+        // 'info' → informational modal describing the service.
+        const SERVICE_DETAILS = {
+            electricity: { title: 'Pay Electricity',   type: 'bill', category: 'Electricity' },
+            airtime:     { title: 'Buy Airtime',       type: 'bill', category: 'Airtime' },
+            internet:    { title: 'Internet Bill',     type: 'bill', category: 'Internet' },
+            tv:          { title: 'TV Subscription',   type: 'bill', category: 'Cable TV' },
+            betting:     { title: 'Fund Betting Wallet', type: 'bill', category: 'Betting' },
+            water:       { title: 'Pay Water Bill',    type: 'bill', category: 'Water' },
+            education:   { title: 'School & Exam Fees', type: 'bill', category: 'Education' },
+            government:  { title: 'Government Payments', type: 'bill', category: 'Government' },
+            insurance:   { title: 'Pay Insurance',     type: 'bill', category: 'Insurance' },
+            solar:       { title: 'Solar Payments',    type: 'bill', category: 'Solar' },
+            gift:        { title: 'Buy Gift Card',     type: 'bill', category: 'Gift Cards' },
+            cards:       { title: 'Cards',  type: 'page', url: 'cards-v2.html' },
+            statement:   { title: 'Statements', type: 'page', url: 'statement.html' },
+            loan:        { title: 'Loan Repayment',    type: 'bill', category: 'Loan Repayment' },
+            savings:     { title: 'Add to Savings',    type: 'bill', category: 'Savings' },
+            invest:      { title: 'Invest',            type: 'bill', category: 'Investment' },
+            transport:   { title: 'Transport & Toll',  type: 'bill', category: 'Transport & Toll' },
+            travel:      { title: 'Travel & Hotel',    type: 'bill', category: 'Travel & Hotel' },
+            flight:      { title: 'Book Flight',       type: 'bill', category: 'Flights' },
+            shopping:    { title: 'Shopping',          type: 'bill', category: 'Shopping' },
+            donation:    { title: 'Donate',            type: 'bill', category: 'Donation' }
+        };
+
+        let svcInfoCurrent = '';
+        function openService(id) {
+            const svc = SERVICE_DETAILS[id];
+            if (!svc) { comingSoonService(id); return; }
+
+            if (svc.type === 'page') {
+                window.location.href = svc.url;
+                return;
+            }
+
+            if (svc.type === 'bill') {
+                openPayBillModal();
+                // openPayBillModal resets the form and may bail if the account is restricted
+                if (!document.getElementById('payBillModal').classList.contains('active')) return;
+                const titleEl = document.getElementById('payBillTitle');
+                if (titleEl) titleEl.textContent = svc.title;
+                const sel = document.getElementById('billCategory');
+                if (sel && svc.category) {
+                    if (![...sel.options].some(o => o.value === svc.category)) {
+                        sel.add(new Option(svc.category, svc.category));
+                    }
+                    sel.value = svc.category;
+                }
+                return;
+            }
+
+            // type 'info'
+            svcInfoCurrent = svc.title;
+            const set = (elId, val) => { const e = document.getElementById(elId); if (e) e.textContent = val; };
+            set('svcInfoTitle', svc.title);
+            set('svcInfoHeading', svc.title);
+            set('svcInfoDesc', svc.desc || '');
+            const iconEl = document.getElementById('svcInfoIcon');
+            if (iconEl) iconEl.innerHTML = `<svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">${SVC_ICON[svc.icon || id] || ''}</svg>`;
+            openModal('serviceInfoModal');
+        }
+
+        // Header search — matches a service by name and opens it
+        function headerSearch() {
+            const input = document.getElementById('headerSearch');
+            const q = (input && input.value || '').trim().toLowerCase();
+            if (!q) return;
+            for (const cat of ALL_SERVICES) {
+                const hit = cat.items.find(it => it.l.toLowerCase().includes(q));
+                if (hit) { if (input) input.blur(); openService(hit.i); return; }
+            }
+            showToast(`No results for "${q}"`, 'info');
+        }
+
+        function serviceInfoNotify() {
+            closeModal('serviceInfoModal');
+            showToast(`We'll notify you when ${svcInfoCurrent} is available`, 'success');
+        }
+
+        function svcAction(item) {
+            openService(item.i);
+        }
+
+        let allServicesRendered = false;
+        function renderAllServices() {
+            const body = document.getElementById('allServicesBody');
+            if (!body) return;
+            const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+            let html = '';
+            ALL_SERVICES.forEach((cat, ci) => {
+                html += `<div class="svc-cat-title">${esc(cat.title)}</div><div class="svc-grid">`;
+                cat.items.forEach((it, ii) => {
+                    const icon = SVC_ICON[it.i] || '';
+                    html += `<div class="service-item" data-c="${ci}" data-i="${ii}">
+                        <div class="service-icon-wrap"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">${icon}</svg></div>
+                        <span class="service-label">${esc(it.l)}</span>
+                    </div>`;
+                });
+                html += `</div>`;
+            });
+            body.innerHTML = html;
+            body.querySelectorAll('.service-item').forEach((el) => {
+                el.addEventListener('click', () => {
+                    const cat = ALL_SERVICES[+el.dataset.c];
+                    const item = cat.items[+el.dataset.i];
+                    closeModal('allServicesModal');
+                    svcAction(item);
+                });
+            });
+            allServicesRendered = true;
+        }
+
+        function openAllServices() {
+            if (!allServicesRendered) renderAllServices();
+            openModal('allServicesModal');
+        }
+
+        // Deep-link: dashboard.html#qr / #services open those overlays directly
+        window.addEventListener('load', () => {
+            if (location.hash === '#qr') openQrModal();
+            else if (location.hash === '#services') openAllServices();
+            else if (location.hash.startsWith('#svc=')) openService(location.hash.slice(5));
+        });
+
+        let qrInstance = null;
         function openQrModal() {
+            // Populate identity + account details from the current user
+            const u = (typeof VanstraBank !== 'undefined' && VanstraBank.getCurrentUser) ? VanstraBank.getCurrentUser() : null;
+            if (u) {
+                const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+                const name = u.fullName || '—';
+                setText('qrFullName', name);
+                setText('qrHolder', name);
+                setText('qrAccountType', u.accountType || 'Checking Account');
+                setText('qrAccountNumber', u.accountNumber || '----');
+                const initials = name.trim().split(/\s+/).map(s => s[0]).slice(0, 2).join('').toUpperCase() || '--';
+                const av = document.getElementById('qrAvatar');
+                if (av) {
+                    if (u.avatar) {
+                        av.textContent = '';
+                        av.style.backgroundImage = `url("${u.avatar}")`;
+                        av.style.backgroundSize = 'cover';
+                        av.style.backgroundPosition = 'center';
+                    } else {
+                        av.textContent = initials;
+                        av.style.backgroundImage = '';
+                    }
+                }
+            }
             document.getElementById('qrModal').classList.add('active');
+            renderAccountQr();
+        }
+
+        // Share the user's account details (native share sheet, else clipboard)
+        async function shareAccountDetails() {
+            const u = (typeof VanstraBank !== 'undefined' && VanstraBank.getCurrentUser) ? VanstraBank.getCurrentUser() : {};
+            const name = u.fullName || '';
+            const account = u.accountNumber || '';
+            const text = `Send money to ${name}\nAccount / IBAN: ${account}\nBank: Vanstra Bank`;
+            if (navigator.share) {
+                try { await navigator.share({ title: 'My Vanstra account details', text }); return; }
+                catch (e) { if (e && e.name === 'AbortError') return; }
+            }
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('Account details copied to clipboard', 'success');
+            } catch (e) {
+                showToast('Could not share details', 'error');
+            }
+        }
+
+        // ---- Scan another user's QR ----
+        let html5Qr = null;
+        async function openQrScanner() {
+            openModal('qrScanModal');
+            const status = document.getElementById('qrScanStatus');
+            const reader = document.getElementById('qrReader');
+            if (reader) reader.innerHTML = '';
+            if (typeof Html5Qrcode === 'undefined') {
+                if (status) status.textContent = 'Scanner unavailable (needs an internet connection).';
+                return;
+            }
+            if (status) status.textContent = 'Point your camera at another user’s Vanstra QR code.';
+            html5Qr = new Html5Qrcode('qrReader');
+            try {
+                await html5Qr.start({ facingMode: 'environment' }, { fps: 10, qrbox: 220 }, onQrScanSuccess, () => {});
+            } catch (e) {
+                if (status) status.textContent = 'Unable to access the camera. Please allow camera permission and try again.';
+            }
+        }
+
+        function onQrScanSuccess(decodedText) {
+            stopQrScanner();
+            closeModal('qrScanModal');
+            closeModal('qrModal');
+
+            let account = (decodedText || '').trim();
+            if (account.toUpperCase().startsWith('VANSTRA:')) account = account.slice(8).trim();
+
+            // Route into the external transfer form, prefilled with the scanned account
+            const form = document.getElementById('externalTransferForm');
+            if (form) form.reset();
+            if (typeof updateExternalAvailable === 'function') { try { updateExternalAvailable(); } catch (e) {} }
+            openModal('externalTransferModal');
+            const recip = document.getElementById('recipientAccount');
+            if (recip) recip.value = account;
+            showToast('Recipient account scanned', 'success');
+        }
+
+        async function stopQrScanner() {
+            if (html5Qr) {
+                try { await html5Qr.stop(); html5Qr.clear(); } catch (e) {}
+                html5Qr = null;
+            }
+        }
+
+        function closeQrScanner() {
+            stopQrScanner();
+            closeModal('qrScanModal');
+        }
+
+        function closeQrScannerOnOverlay(event) {
+            if (event && event.target && event.target.id === 'qrScanModal') closeQrScanner();
+        }
+
+        // Render a real QR code encoding the account/IBAN into #qrCanvas
+        function renderAccountQr() {
+            const target = document.getElementById('qrCanvas');
+            if (!target) return;
+            const account = (document.getElementById('qrAccountNumber')?.textContent || '').trim();
+            if (!account || account === '----') return;
+
+            target.innerHTML = '';
+            if (typeof QRCode === 'undefined') {
+                target.textContent = 'QR unavailable offline';
+                return;
+            }
+            // Encode a payment-friendly string with the account number/IBAN
+            qrInstance = new QRCode(target, {
+                text: `VANSTRA:${account}`,
+                width: 168,
+                height: 168,
+                colorDark: '#041225',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.M
+            });
         }
 
         // Toast
