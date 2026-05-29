@@ -91,7 +91,7 @@
             gap: 0.75rem;
         }
 
-        .header-content { gap: 0.55rem; }
+        .header-content { gap: 0.55rem; width: 100%; max-width: 100%; min-width: 0; }
 
         /* Avatar + tier badge */
         .header-avatar-wrap { position: relative; flex-shrink: 0; cursor: pointer; }
@@ -107,11 +107,12 @@
 
         /* Search pill */
         .header-search {
-            flex: 1; min-width: 0;
+            flex: 1 1 0; min-width: 0; width: 0;
             display: flex; align-items: center; gap: 0.5rem;
             background: rgba(255,255,255,0.10);
             border-radius: 999px;
             padding: 0.6rem 0.9rem;
+            overflow: hidden;
         }
         .header-search .search-ic { width: 18px; height: 18px; color: rgba(255,255,255,0.5); flex-shrink: 0; }
         .header-search input {
