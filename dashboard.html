@@ -123,19 +123,6 @@
 
         /* Right-side actions */
         .header-actions { display: flex; align-items: center; gap: 0.4rem; flex-shrink: 0; }
-        .coins-pill {
-            display: flex; align-items: center; gap: 0.35rem;
-            background: #fff; border: none; border-radius: 999px;
-            padding: 3px 11px 3px 3px; cursor: pointer;
-        }
-        .coins-pill .coin {
-            width: 24px; height: 24px; border-radius: 50%;
-            background: linear-gradient(135deg, #F5C24B 0%, #E0A82E 100%);
-            display: flex; align-items: center; justify-content: center;
-            color: #7A5712;
-        }
-        .coins-pill .coin svg { width: 14px; height: 14px; }
-        .coins-count { font-size: 0.85rem; font-weight: 700; color: #0F172A; }
         .header-ic-btn {
             position: relative; background: none; border: none; cursor: pointer;
             color: #fff; width: 34px; height: 34px; padding: 0;
@@ -2860,10 +2847,6 @@
             </div>
 
             <div class="header-actions">
-                <button class="coins-pill" onclick="showToast('You have 0 reward points', 'info')" title="Reward points">
-                    <span class="coin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v10M9.5 9.5h3.2a1.8 1.8 0 010 3.6H9.8"/></svg></span>
-                    <span class="coins-count" id="coinsCount">0</span>
-                </button>
                 <button class="header-ic-btn" onclick="window.location.href='statement.html'" aria-label="Insights" title="Insights">
                     <svg fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3a9 9 0 109 9h-9V3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M14 3.2A9 9 0 0120.8 10H14V3.2z"/></svg>
                 </button>
@@ -4747,10 +4730,18 @@
                     icon: '💳'
                 }
             ];
-            
+
+            // Show the notification count on the header bell badge
+            const notifBadge = document.getElementById('notificationBadge');
+            if (notifBadge) {
+                const n = announcements.length;
+                notifBadge.textContent = n > 9 ? '9+' : String(n);
+                notifBadge.classList.toggle('hidden', n === 0);
+            }
+
             const container = document.getElementById('announcementsContainer');
             if (!container) return;
-            
+
             container.innerHTML = announcements.map(announcement => `
                 <div class="announcement-card" onclick="showAnnouncement(${announcement.id})">
                     <span class="announcement-badge ${announcement.badgeClass}">${announcement.badge}</span>
