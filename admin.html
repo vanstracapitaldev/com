@@ -381,6 +381,23 @@
                 </div>
             </div>
 
+            <!-- Account Details Modal -->
+            <div id="detailsModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4">
+                <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg p-6 relative">
+                    <button type="button" onclick="closeDetailsModal()" aria-label="Close" title="Close" class="absolute top-4 right-4 text-gray-500 hover:text-gray-900">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    <h2 class="text-2xl font-semibold text-navy mb-1">Account Details</h2>
+                    <p class="text-sm text-gray-500 mb-5">Full information for this customer account.</p>
+                    <div id="detailsBody" class="space-y-3 text-sm">
+                        <div class="text-center text-gray-500 py-8">Loading…</div>
+                    </div>
+                    <div class="flex justify-end mt-6">
+                        <button type="button" onclick="closeDetailsModal()" class="px-4 py-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200">Close</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Analytics Section -->
             <div id="analytics-section" class="section-content hidden">
                 <div class="mb-8">
@@ -559,7 +576,7 @@
         }
 
         async function applyStatusChange() {
-            const authToken = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
+            const authToken = localStorage.getItem('adminToken') || localStorage.getItem('authToken');
             const errorEl = document.getElementById('statusModalError');
             const codeInput = document.getElementById('statusVerificationCode');
             const status = selectedStatusTarget;
@@ -607,8 +624,60 @@
             }
         }
 
-        function showAccountDetails(userId) {
-            alert('Account details modal is not yet implemented for user ' + userId);
+        function closeDetailsModal() {
+            const modal = document.getElementById('detailsModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        async function showAccountDetails(userId) {
+            const modal = document.getElementById('detailsModal');
+            const body = document.getElementById('detailsBody');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            body.innerHTML = '<div class="text-center text-gray-500 py-8">Loading…</div>';
+
+            const token = localStorage.getItem('adminToken') || localStorage.getItem('authToken');
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/users/${userId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.message || `HTTP ${response.status}`);
+
+                const u = data.user || data;
+                const currency = u.currency || 'EUR';
+                const bal = (u.accountBalance != null ? u.accountBalance : 0)
+                    .toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                const created = u.createdAt && !isNaN(new Date(u.createdAt)) ? new Date(u.createdAt).toLocaleString() : '—';
+                const lastLogin = u.lastLogin && !isNaN(new Date(u.lastLogin)) ? new Date(u.lastLogin).toLocaleString() : '—';
+                const txCount = Array.isArray(u.transactions) ? u.transactions.length : 0;
+                const status = (u.accountStatus || 'active');
+
+                const row = (label, value) => `
+                    <div class="flex justify-between gap-4 py-2 border-b border-gray-100">
+                        <span class="text-gray-500">${label}</span>
+                        <span class="font-semibold text-navy text-right break-all">${value ?? '—'}</span>
+                    </div>`;
+
+                body.innerHTML = `
+                    ${row('Full Name', u.fullName)}
+                    ${row('Email', u.email)}
+                    ${row('Phone', u.phone)}
+                    ${row('Account Number / IBAN', u.accountNumber)}
+                    ${row('Balance', `${currency} ${bal}`)}
+                    ${row('Account Tier', u.tier || 'basic')}
+                    ${row('Status', `<span class="status-${status.toLowerCase()} px-2 py-0.5 rounded-full text-xs">${status}</span>`)}
+                    ${row('Online', u.isOnline ? 'Yes' : 'No')}
+                    ${row('Transactions', txCount)}
+                    ${row('Member Since', created)}
+                    ${row('Last Login', lastLogin)}
+                    <div class="pt-3">
+                        <button type="button" onclick="closeDetailsModal(); openStatusModal('${u.id}', '${status.toLowerCase()}')" class="w-full px-4 py-3 rounded-xl bg-navy text-white hover:bg-slate-900 text-sm font-semibold">Manage Status (Suspend / Freeze)</button>
+                    </div>`;
+            } catch (err) {
+                body.innerHTML = `<div class="text-center text-red-500 py-8">Error loading details: ${err.message}</div>`;
+            }
         }
 
         function initializeAdminPanel() {
@@ -670,16 +739,20 @@
             `).join('');
         }
         
+        function redirectToAdminLogin() {
+            // Clear any stale (e.g. customer) token and send back to admin login
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('authToken');
+            if (typeof autoRefreshInterval !== 'undefined' && autoRefreshInterval) clearInterval(autoRefreshInterval);
+            window.location.href = 'admin-login.html';
+        }
+
         function loadUserAccounts() {
-            // Get auth token from localStorage
-            const authToken = localStorage.getItem('authToken') || localStorage.getItem('adminToken');
-            
+            // Use the admin token (prefer it over any leftover customer token)
+            const authToken = localStorage.getItem('adminToken') || localStorage.getItem('authToken');
+
             if (!authToken) {
-                console.warn('No auth token found - admin must be logged in');
-                const accountsTable = document.getElementById('accountsTable');
-                accountsTable.innerHTML = '<tr><td colspan="8" class="py-8 px-4 text-center text-gray-500">Admin authentication required. Please login first.</td></tr>';
-                document.getElementById('totalAccounts').textContent = '0';
-                document.getElementById('totalBalance').textContent = '€0.00';
+                redirectToAdminLogin();
                 return;
             }
 
@@ -692,8 +765,10 @@
                 }
             })
             .then(response => {
-                if (response.status === 401) {
-                    throw new Error('Unauthorized - Admin token expired or invalid');
+                if (response.status === 401 || response.status === 403) {
+                    // Token missing/expired or not an admin token — re-authenticate
+                    redirectToAdminLogin();
+                    throw new Error('Admin authentication required');
                 }
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}`);

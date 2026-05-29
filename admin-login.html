@@ -4,130 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Vanstra Capital</title>
-    <meta name="description" content="Vanstra Capital Admin Login - Secure access to administrative panel.">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Custom Fonts -->
+    <meta name="description" content="Vanstra Capital administrative panel sign in.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --midnight-navy: #041225;
-            --deep-slate: #0B2A3F;
-            --gold-accent: #C89A3A;
-            --soft-white: #F7F8FA;
-            --gray: #8B96A3;
-        }
-        
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--soft-white);
-            color: var(--midnight-navy);
+            font-family: 'Inter', sans-serif; margin: 0; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+            background: linear-gradient(150deg, #0B2A3F 0%, #041225 100%); color: #fff;
         }
-        
-        .font-serif {
-            font-family: 'Playfair Display', serif;
+        .admin-card {
+            width: 100%; max-width: 400px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 22px; padding: 2rem 1.75rem;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.45);
+            -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
         }
-        
-        .gold-accent {
-            color: var(--gold-accent);
+        .admin-logo {
+            width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 1rem;
+            background: linear-gradient(150deg, #0B2A3F, #041225);
+            border: 1px solid rgba(200,154,58,0.4);
+            display: flex; align-items: center; justify-content: center;
         }
-        
-        .bg-gold {
-            background-color: var(--gold-accent);
+        .admin-title { font-family: 'Poppins', sans-serif; font-size: 1.35rem; font-weight: 800; text-align: center; margin: 0 0 0.25rem; }
+        .admin-sub { text-align: center; color: rgba(255,255,255,0.5); font-size: 0.85rem; margin: 0 0 1.75rem; }
+        .field { margin-bottom: 1.1rem; }
+        .field label { display: block; font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 0.45rem; }
+        .field input {
+            width: 100%; padding: 0.85rem 1rem; border-radius: 12px;
+            background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.12);
+            color: #fff; font-size: 0.95rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
         }
-        
-        .text-navy {
-            color: var(--midnight-navy);
+        .field input::placeholder { color: rgba(255,255,255,0.3); }
+        .field input:focus { border-color: #C89A3A; box-shadow: 0 0 0 3px rgba(200,154,58,0.15); }
+        .admin-btn {
+            width: 100%; padding: 0.95rem; border: none; border-radius: 12px; cursor: pointer;
+            background: linear-gradient(135deg, #D4AF56, #C89A3A); color: #041225;
+            font-family: inherit; font-weight: 700; font-size: 1rem; margin-top: 0.5rem;
+            transition: opacity 0.2s, transform 0.15s;
         }
-        
-        .bg-navy {
-            background-color: var(--midnight-navy);
+        .admin-btn:hover:not(:disabled) { opacity: 0.94; }
+        .admin-btn:active:not(:disabled) { transform: scale(0.98); }
+        .admin-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .admin-error {
+            background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3);
+            color: #FCA5A5; font-size: 0.85rem; border-radius: 10px; padding: 0.7rem 0.9rem;
+            margin-bottom: 1rem; display: none;
         }
-        
-        .login-container {
-            background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FA 100%);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        
-        .btn-primary {
-            background-color: var(--gold-accent);
-            color: white;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(200, 154, 58, 0.3);
-        }
+        .admin-error.show { display: block; }
+        .admin-foot { text-align: center; margin-top: 1.5rem; }
+        .admin-foot a { color: rgba(255,255,255,0.45); font-size: 0.8rem; text-decoration: none; }
+        .admin-foot a:hover { color: #C89A3A; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-white">
-    <div class="login-container rounded-2xl p-8 max-w-md w-full mx-4">
-        <div class="text-center mb-8">
-            <img src="resources/logo-primary.svg" alt="Vanstra Capital" class="h-12 w-auto mx-auto mb-4">
-            <h1 class="text-3xl font-serif font-bold text-navy mb-2">Admin Login</h1>
-            <p class="text-gray-600">Secure Administrative Access</p>
+<body>
+    <div class="admin-card">
+        <div class="admin-logo">
+            <svg width="30" height="30" fill="none" viewBox="0 0 32 32">
+                <path d="M7.5 8.5 L16 26 L24.5 8.5" stroke="#E6B964" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="24.5" cy="8.5" r="2.6" fill="#E6B964"/>
+            </svg>
         </div>
-        
-        <form id="adminLoginForm" class="space-y-6">
-            <div>
-                <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
-                <input type="text" id="username" name="username" required 
-                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-accent focus:border-transparent"
-                       placeholder="Enter admin username">
+        <h1 class="admin-title">Admin Panel</h1>
+        <p class="admin-sub">Vanstra Capital · Administrator sign in</p>
+
+        <div id="adminError" class="admin-error"></div>
+
+        <form id="adminLoginForm">
+            <div class="field">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="admin" autocomplete="username" required>
             </div>
-            
-            <div>
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                <input type="password" id="password" name="password" required 
-                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-accent focus:border-transparent"
-                       placeholder="Enter admin password">
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter admin password" autocomplete="current-password" required>
             </div>
-            
-            <div class="flex items-center justify-between">
-                <div class="flex items-center">
-                    <input type="checkbox" id="remember" name="remember" class="h-4 w-4 text-gold-accent focus:ring-gold-accent border-gray-300 rounded">
-                    <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
-                </div>
-                <a href="#" class="text-sm text-gold-accent hover:text-opacity-80">Forgot password?</a>
-            </div>
-            
-            <button type="submit" class="w-full btn-primary py-3 px-4 rounded-lg font-semibold">
-                Sign In to Admin Panel
-            </button>
+            <button type="submit" class="admin-btn" id="adminSubmit">Sign In</button>
         </form>
-        
-        <div class="mt-6 text-center">
-            <a href="index.html" class="text-sm text-gray-600 hover:text-gold-accent transition-colors">
-                ← Return to Vanstra Capital
-            </a>
+
+        <div class="admin-foot">
+            <a href="index.html">← Back to website</a>
         </div>
     </div>
-    
+
+    <script src="config.js"></script>
     <script>
-        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+        function showAdminError(msg) {
+            const el = document.getElementById('adminError');
+            el.textContent = msg; el.classList.add('show');
+        }
+        document.getElementById('adminLoginForm').addEventListener('submit', async function (e) {
             e.preventDefault();
-            
-            const username = document.getElementById('username').value;
+            document.getElementById('adminError').classList.remove('show');
+
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
-            
-            // Simple admin authentication (for demo purposes)
-            if (username === 'admin' && password === 'admin123') {
-                // Store admin session
+            const btn = document.getElementById('adminSubmit');
+            btn.disabled = true; btn.textContent = 'Signing in…';
+
+            try {
+                const response = await fetch(`${API_CONFIG.API_BASE_URL}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    showAdminError(data.message || 'Invalid username or password.');
+                    return;
+                }
+
+                // Store the admin JWT used by admin.html for all admin API calls
+                localStorage.setItem('adminToken', data.token);
+                localStorage.setItem('authToken', data.token);
                 localStorage.setItem('adminSession', JSON.stringify({
                     username: username,
+                    email: data.admin && data.admin.email,
                     loginTime: new Date().toISOString()
                 }));
-                
-                // Redirect to admin panel
+
                 window.location.href = 'admin.html';
-            } else {
-                alert('Invalid username or password. Please try again.');
+            } catch (err) {
+                showAdminError('Could not reach the server. Ensure the backend is running and try again.');
+            } finally {
+                btn.disabled = false; btn.textContent = 'Sign In';
             }
         });
     </script>
