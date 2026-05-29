@@ -128,10 +128,12 @@
             document.getElementById('emailDisplay').textContent = email;
         }
 
-        // Display test OTP if in test mode
+        // Display test OTP if in test mode (elements are optional)
         if (testOTP) {
-            document.getElementById('testModeBox').style.display = 'block';
-            document.getElementById('testOTPDisplay').textContent = testOTP;
+            const testBox = document.getElementById('testModeBox');
+            const testDisplay = document.getElementById('testOTPDisplay');
+            if (testBox) testBox.style.display = 'block';
+            if (testDisplay) testDisplay.textContent = testOTP;
         }
 
         // OTP input handling

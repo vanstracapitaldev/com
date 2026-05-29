@@ -35,19 +35,17 @@ const VanstraBank = {
     try {
       // Pass all user data fields to the API
       const response = await bankAPI.signup(userData);
-      this.currentUser = response.user;
-      
-      // Store auth token
+      this.currentUser = response.user || null;
+
+      // Store auth token only if one was issued (none until email is verified)
       if (response.token) {
         bankAPI.setToken(response.token);
       }
-      
+
       this.emit('signup', response.user);
-      return { 
-        success: true, 
-        user: response.user,
-        token: response.token 
-      };
+      // Pass through the full response so callers can handle the OTP step
+      // (requiresOTP, tempToken, email, testOTP, message).
+      return { success: true, ...response };
     } catch (error) {
       const message = bankAPI.getErrorMessage(error);
       console.error('Signup failed:', message);

@@ -1,1 +1,4 @@
 ⚠️  Running in file-DB mode; MongoDB connection skipped
+Server running on port 5000
+Environment: development
+MongoDB: mongodb+srv://vanstracapitalhelpdesk_db_user:aPBsT9mzZgrFaoLm@cluster0.ob5aove.mongodb.net/

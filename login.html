@@ -12,7 +12,7 @@
   <style>
     html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; }
     body {
-      background: var(--navy);
+      background: #EEF1F8;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -21,10 +21,10 @@
     }
 
     .bg-blobs { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-    .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18; }
-    .blob-1 { width: 480px; height: 480px; background: var(--brand-light); top: -140px; left: -120px; }
-    .blob-2 { width: 360px; height: 360px; background: var(--gold); bottom: -80px; right: -80px; }
-    .blob-3 { width: 280px; height: 280px; background: var(--indigo); top: 40%; left: 60%; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.14; }
+    .blob-1 { width: 480px; height: 480px; background: var(--brand-light); top: -160px; left: -120px; }
+    .blob-2 { width: 360px; height: 360px; background: var(--gold); bottom: -100px; right: -80px; }
+    .blob-3 { width: 280px; height: 280px; background: var(--indigo); top: 45%; left: 62%; }
 
     .login-wrap {
       position: relative; z-index: 1;
@@ -40,71 +40,69 @@
       width: 64px; height: 64px;
       background: linear-gradient(135deg, var(--brand-light), var(--indigo));
       border-radius: 20px; margin-bottom: 0.875rem;
-      box-shadow: 0 8px 32px rgba(58,87,232,.35);
+      box-shadow: 0 8px 28px rgba(58,87,232,.30);
     }
     .logo-mark svg { color: white; }
-    .logo-name { font-family: 'Poppins', sans-serif; font-size: 1.625rem; font-weight: 800; color: white; margin: 0; letter-spacing: -0.5px; }
-    .logo-tag  { font-size: 0.8125rem; color: rgba(255,255,255,.45); margin: 0.25rem 0 0; }
+    .logo-name { font-family: 'Poppins', sans-serif; font-size: 1.625rem; font-weight: 800; color: #0F1E35; margin: 0; letter-spacing: -0.5px; }
+    .logo-tag  { font-size: 0.8125rem; color: #6B7280; margin: 0.25rem 0 0; }
 
-    .status-bar { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.75rem; color: rgba(255,255,255,.3); }
+    .status-bar { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 1rem; font-size: 0.75rem; color: #9CA3AF; }
     .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); animation: pulse 2.5s ease-in-out infinite; }
 
     .login-card {
-      background: rgba(255,255,255,.05);
-      -webkit-backdrop-filter: blur(20px);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,.1);
+      background: #FFFFFF;
+      border: 1px solid #E6E9F0;
       border-radius: 24px;
       padding: 2rem 1.75rem;
-      box-shadow: 0 24px 64px rgba(0,0,0,.4), 0 4px 16px rgba(0,0,0,.2);
+      box-shadow: 0 20px 48px rgba(15,30,53,.10), 0 4px 14px rgba(15,30,53,.05);
     }
 
-    .login-heading { font-family: 'Poppins', sans-serif; font-size: 1.375rem; font-weight: 700; color: white; margin: 0 0 0.3rem; }
-    .login-sub     { font-size: 0.875rem; color: rgba(255,255,255,.5); margin: 0 0 1.75rem; }
+    .login-heading { font-family: 'Poppins', sans-serif; font-size: 1.375rem; font-weight: 700; color: #111827; margin: 0 0 0.3rem; }
+    .login-sub     { font-size: 0.875rem; color: #6B7280; margin: 0 0 1.75rem; }
 
-    .dark-label { display: block; font-size: 0.8125rem; font-weight: 600; color: rgba(255,255,255,.7); margin-bottom: 0.4rem; }
+    .dark-label { display: block; font-size: 0.8125rem; font-weight: 600; color: #374151; margin-bottom: 0.4rem; }
 
     .dark-input {
       width: 100%; padding: 0.9375rem 1rem;
-      background: rgba(255,255,255,.07);
-      border: 1.5px solid rgba(255,255,255,.12);
+      background: #F9FAFB;
+      border: 1.5px solid #E5E7EB;
       border-radius: var(--radius-md);
-      font-size: 0.9375rem; color: white; outline: none;
+      font-size: 0.9375rem; color: #111827; outline: none;
       transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
     }
-    .dark-input::placeholder { color: rgba(255,255,255,.28); }
+    .dark-input::placeholder { color: #9CA3AF; }
     .dark-input:focus {
-      border-color: rgba(255,255,255,.38);
-      background: rgba(255,255,255,.10);
-      box-shadow: 0 0 0 3px rgba(255,255,255,.07);
+      border-color: var(--brand-light);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(58,87,232,.12);
     }
-    .dark-input.error { border-color: rgba(239,68,68,.65); box-shadow: 0 0 0 3px rgba(239,68,68,.12); }
+    .dark-input.error { border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,.12); }
 
     .input-row { position: relative; }
     .input-toggle {
       position: absolute; right: 0.875rem; top: 50%; transform: translateY(-50%);
       background: none; border: none; cursor: pointer;
-      color: rgba(255,255,255,.35); padding: 0.25rem; border-radius: 6px;
+      color: #9CA3AF; padding: 0.25rem; border-radius: 6px;
       transition: color 0.2s; display: flex;
     }
-    .input-toggle:hover { color: rgba(255,255,255,.7); }
+    .input-toggle:hover { color: #4B5563; }
 
     .error-box {
-      background: rgba(239,68,68,.12);
-      border: 1px solid rgba(239,68,68,.28);
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
       border-radius: var(--radius-md);
       padding: 0.75rem 1rem;
       display: none; align-items: center; gap: 0.625rem; margin-bottom: 1.25rem;
     }
     .error-box.show { display: flex; animation: shake 0.4s ease; }
     .error-box svg { color: var(--error); flex-shrink: 0; }
-    .error-box span { font-size: 0.875rem; color: rgba(255,255,255,.88); line-height: 1.4; }
+    .error-box span { font-size: 0.875rem; color: #991B1B; line-height: 1.4; }
 
     .login-meta { display: flex; align-items: center; justify-content: space-between; margin: 0.75rem 0 1.5rem; }
     .remember-row { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
     .remember-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--brand-light); }
-    .remember-row span { font-size: 0.8125rem; color: rgba(255,255,255,.5); }
-    .forgot-link { font-size: 0.8125rem; font-weight: 600; color: var(--gold-light); cursor: pointer; transition: opacity 0.2s; }
+    .remember-row span { font-size: 0.8125rem; color: #6B7280; }
+    .forgot-link { font-size: 0.8125rem; font-weight: 600; color: var(--brand-light); cursor: pointer; transition: opacity 0.2s; }
     .forgot-link:hover { opacity: 0.7; }
 
     .signin-btn {
@@ -114,83 +112,86 @@
       font-size: 1rem; font-weight: 700; cursor: pointer;
       transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
       display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      box-shadow: 0 6px 20px rgba(58,87,232,.35); letter-spacing: 0.01em;
+      box-shadow: 0 6px 18px rgba(58,87,232,.28); letter-spacing: 0.01em;
     }
-    .signin-btn:hover:not(:disabled) { box-shadow: 0 10px 30px rgba(58,87,232,.45); opacity: 0.94; }
+    .signin-btn:hover:not(:disabled) { box-shadow: 0 10px 26px rgba(58,87,232,.36); opacity: 0.96; }
     .signin-btn:active:not(:disabled) { transform: scale(0.98); }
-    .signin-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .signin-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
 
     .alt-divider {
       display: flex; align-items: center; gap: 1rem; margin: 1.25rem 0 0.75rem;
     }
-    .alt-divider-line { flex: 1; height: 1px; background: rgba(255,255,255,.1); }
-    .alt-divider span  { font-size: 0.75rem; color: rgba(255,255,255,.35); white-space: nowrap; }
+    .alt-divider-line { flex: 1; height: 1px; background: #E5E7EB; }
+    .alt-divider span  { font-size: 0.75rem; color: #9CA3AF; white-space: nowrap; }
 
     .biometric-btn {
       width: 100%; padding: 0.875rem;
-      background: rgba(255,255,255,.06);
-      border: 1.5px solid rgba(255,255,255,.12);
+      background: #FFFFFF;
+      border: 1.5px solid #E5E7EB;
       border-radius: var(--radius-md);
-      color: rgba(255,255,255,.75); font-size: 0.875rem; font-weight: 600; cursor: pointer;
+      color: #374151; font-size: 0.875rem; font-weight: 600; cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap: 0.625rem;
       transition: background 0.2s, border-color 0.2s;
     }
-    .biometric-btn:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); }
+    .biometric-btn:hover { background: #F9FAFB; border-color: #D1D5DB; }
 
     .login-footer { text-align: center; margin-top: 1.5rem; }
-    .login-footer p { font-size: 0.8125rem; color: rgba(255,255,255,.4); margin: 0; }
-    .login-footer a { color: var(--gold-light); font-weight: 600; cursor: pointer; }
+    .login-footer p { font-size: 0.8125rem; color: #6B7280; margin: 0; }
+    .login-footer a { color: var(--brand-light); font-weight: 600; cursor: pointer; }
     .login-footer a:hover { opacity: 0.75; }
 
     .security-badge {
       display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      margin-top: 1.75rem; font-size: 0.72rem; color: rgba(255,255,255,.25);
+      margin-top: 1.75rem; font-size: 0.72rem; color: #9CA3AF;
     }
 
     /* Forgot password overlay */
     .forgot-overlay {
       position: fixed; inset: 0; z-index: 50;
-      background: rgba(4,18,37,.88);
-      -webkit-backdrop-filter: blur(8px);
-      backdrop-filter: blur(8px);
+      background: rgba(15,30,53,.45);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
       display: none; align-items: center; justify-content: center; padding: 1.25rem;
     }
     .forgot-overlay.active { display: flex; }
 
     .forgot-card {
-      background: #0F1E35;
-      border: 1px solid rgba(255,255,255,.12);
+      background: #FFFFFF;
+      border: 1px solid #E6E9F0;
       border-radius: 24px; padding: 2rem 1.75rem;
       width: 100%; max-width: 380px;
+      box-shadow: 0 24px 60px rgba(15,30,53,.22);
       animation: scaleIn 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    .forgot-card h2 { font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 700; color: white; margin: 0 0 0.375rem; }
-    .forgot-card p  { font-size: 0.875rem; color: rgba(255,255,255,.5); margin: 0 0 1.5rem; line-height: 1.5; }
+    .forgot-card h2 { font-family: 'Poppins', sans-serif; font-size: 1.25rem; font-weight: 700; color: #111827; margin: 0 0 0.375rem; }
+    .forgot-card p  { font-size: 0.875rem; color: #6B7280; margin: 0 0 1.5rem; line-height: 1.5; }
 
     .forgot-success { display: none; text-align: center; padding: 0.5rem 0; }
     .forgot-success-icon {
       width: 60px; height: 60px;
-      background: rgba(16,185,129,.15); border-radius: 50%;
+      background: rgba(16,185,129,.12); border-radius: 50%;
       display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;
     }
 
     /* Forgot card sub-components */
     .forgot-header     { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
     .forgot-header-text h2 { margin: 0 0 0.25rem; }
-    .forgot-header-text p  { margin: 0; font-size: 0.875rem; color: rgba(255,255,255,.5); line-height: 1.5; }
+    .forgot-header-text p  { margin: 0; font-size: 0.875rem; color: #6B7280; line-height: 1.5; }
     .forgot-close-btn  {
-      background: rgba(255,255,255,.08); border: none;
+      background: #F3F4F6; border: none;
       width: 34px; height: 34px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: rgba(255,255,255,.6); flex-shrink: 0; margin-left: 1rem;
+      cursor: pointer; color: #6B7280; flex-shrink: 0; margin-left: 1rem;
+      transition: background 0.2s;
     }
+    .forgot-close-btn:hover { background: #E5E7EB; }
     .forgot-email-wrap { margin-bottom: 1.25rem; }
     .forgot-success-title {
       font-family: 'Poppins', sans-serif; font-size: 1.125rem; font-weight: 700;
-      color: white; margin: 0 0 0.5rem;
+      color: #111827; margin: 0 0 0.5rem;
     }
     .forgot-success-text {
-      font-size: 0.875rem; color: rgba(255,255,255,.55);
+      font-size: 0.875rem; color: #6B7280;
       margin: 0 0 1.5rem; line-height: 1.5;
     }
 
@@ -339,12 +340,16 @@
   <div id="toast" class="toast" role="alert"></div>
 
   <script src="bank-core-v2.js"></script>
+  <script src="config.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      if (typeof VanstraBank !== 'undefined' && VanstraBank.isAuthenticated()) {
-        window.location.replace('dashboard.html');
-        return;
-      }
+      // Always require a fresh login + OTP. Clear any stale local session so an
+      // old 24h session token can't auto-skip the login/verification step.
+      try {
+        localStorage.removeItem('currentSession');
+        localStorage.removeItem('authToken');
+      } catch (e) { /* ignore */ }
+
       const remembered = localStorage.getItem('vanstraRememberedEmail');
       if (remembered) {
         document.getElementById('email').value = remembered;
@@ -364,20 +369,38 @@
       if (!password) { showInputError('password', 'Please enter your password.'); return; }
 
       setLoading(true);
-      await delay(700);
 
       try {
-        const result = VanstraBank.login(email, password);
-        if (result.success) {
+        // Authenticate against the backend, which emails a one-time code.
+        const response = await fetch(`${API_CONFIG.API_BASE_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          setLoading(false);
+          showError(data.message || 'Invalid email or password. Please try again.');
+          return;
+        }
+
+        if (data.success && data.requiresOTP) {
           if (remember) localStorage.setItem('vanstraRememberedEmail', email);
           else localStorage.removeItem('vanstraRememberedEmail');
 
-          document.getElementById('btnText').textContent = 'Signing in…';
-          await delay(350);
-          window.location.href = 'dashboard.html';
+          document.getElementById('btnText').textContent = 'Sending code…';
+          // Hand off to the OTP screen to complete verification.
+          const params = new URLSearchParams({
+            tempToken: data.tempToken,
+            email: data.email || email,
+            purpose: 'login'
+          });
+          if (data.testOTP) params.set('testOTP', data.testOTP);
+          window.location.href = 'verify-otp.html?' + params.toString();
         } else {
           setLoading(false);
-          showError(result.error || 'Invalid email or password. Please try again.');
+          showError(data.message || 'Invalid email or password. Please try again.');
         }
       } catch (e) {
         setLoading(false);
@@ -413,10 +436,31 @@
       const btn = document.getElementById('forgotBtn');
       btn.disabled = true;
       btn.textContent = 'Sending…';
-      await delay(1100);
-      document.getElementById('forgotFormWrap').style.display = 'none';
-      document.getElementById('forgotSuccess').style.display  = 'block';
-      document.getElementById('forgotSuccessText').textContent = `We sent reset instructions to ${email}`;
+
+      try {
+        const response = await fetch(`${API_CONFIG.API_BASE_URL}/auth/forgot-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          showToast(data.message || 'Could not send reset link. Please try again.', 'error');
+          btn.disabled = false;
+          btn.textContent = 'Send reset link';
+          return;
+        }
+
+        // Backend returns a generic success regardless of whether the email exists
+        document.getElementById('forgotFormWrap').style.display = 'none';
+        document.getElementById('forgotSuccess').style.display  = 'block';
+        document.getElementById('forgotSuccessText').textContent = `If an account exists for ${email}, we've sent a password reset link. Check your inbox (and spam).`;
+      } catch (e) {
+        showToast('Something went wrong. Please check your connection and try again.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Send reset link';
+      }
     }
 
     function setLoading(loading) {
