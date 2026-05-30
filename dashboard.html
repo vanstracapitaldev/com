@@ -354,19 +354,54 @@
             color: #c4b5fd; animation: pulse 2s infinite;
         }
 
+        /* Platform-wide restriction banner */
+        .restriction-banner {
+            display: none;
+            position: sticky; top: 0; z-index: 1200;
+            background: linear-gradient(135deg, #b91c1c, #7f1d1d);
+            color: #fff; box-shadow: 0 4px 18px rgba(0,0,0,0.3);
+        }
+        .restriction-banner.show { display: block; animation: bannerDrop 0.35s ease; }
+        @keyframes bannerDrop { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .restriction-banner-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.7rem 1rem;
+        }
+        .restriction-banner-icon { font-size: 1.25rem; flex-shrink: 0; }
+        .restriction-banner-text { display: flex; flex-direction: column; line-height: 1.3; flex: 1 1 auto; min-width: 0; }
+        .restriction-banner-text strong { font-size: 0.9rem; font-weight: 700; }
+        .restriction-banner-text span { font-size: 0.78rem; opacity: 0.9; }
+        .restriction-banner-btn {
+            flex-shrink: 0; cursor: pointer; border: none;
+            background: #fff; color: #b91c1c;
+            font-weight: 700; font-size: 0.8rem;
+            padding: 0.55rem 0.9rem; border-radius: 10px;
+            transition: transform 0.15s, opacity 0.2s;
+        }
+        .restriction-banner-btn:hover { opacity: 0.92; }
+        .restriction-banner-btn:active { transform: scale(0.97); }
+        @media (max-width: 480px) {
+            .restriction-banner-inner { padding: 0.6rem 0.8rem; gap: 0.5rem; }
+            .restriction-banner-text span { font-size: 0.72rem; }
+            .restriction-banner-btn { padding: 0.5rem 0.7rem; font-size: 0.74rem; }
+        }
+
+        /* Centered modal — floats in the middle. A light scrim keeps the
+           platform visible behind it (no full-screen blackout). */
         .suspension-verification-modal {
             position: fixed;
             inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(10px);
+            padding: 1.25rem;
+            background: rgba(17, 24, 39, 0.4);  /* light scrim — platform shows through */
             z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
             pointer-events: none;
             transition: opacity 0.25s ease, visibility 0.25s ease;
+            opacity: 0;
+            visibility: hidden;
         }
 
         .suspension-verification-modal.active {
@@ -376,29 +411,66 @@
         }
 
         body.suspension-modal-open {
-            overflow: hidden;
+            overflow: auto;
         }
 
         .suspension-verification-content {
-            width: min(560px, calc(100% - 32px));
-            background: #0f172a;
-            border: 1px solid rgba(148, 163, 184, 0.16);
-            border-radius: 24px;
-            padding: 2rem;
-            box-shadow: 0 30px 80px rgba(15, 23, 42, 0.6);
-            color: #e2e8f0;
+            width: min(440px, 100%);
+            max-height: 85vh;
+            overflow-y: auto;
+            background: #ffffff;
+            border: 1px solid #E5E7EB;
+            border-radius: 22px;                 /* centered card */
+            padding: 1.75rem 1.5rem 2rem;
+            box-shadow: 0 24px 70px rgba(17, 24, 39, 0.28);
+            color: #1F2937;
             position: relative;
+            pointer-events: auto;
+            transform: translateY(12px) scale(0.97);
+            opacity: 0;
+            transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.28s ease;
         }
+
+        .suspension-verification-modal.active .suspension-verification-content {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        /* X close button */
+        .suspension-close-btn {
+            position: absolute;
+            top: 0.9rem;
+            right: 0.9rem;
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 10px;
+            background: #F3F4F6;
+            color: #6B7280;
+            font-size: 1.15rem;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.18s ease, color 0.18s ease;
+        }
+        .suspension-close-btn:hover { background: #E5E7EB; color: #111111; }
 
         .suspension-verification-content h3 {
             margin: 0 0 0.5rem;
-            font-size: 1.45rem;
+            padding-right: 2.5rem;               /* clear the X button */
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #111111;
+            letter-spacing: -0.01em;
         }
 
         .suspension-verification-content p {
             margin: 0.5rem 0 1rem;
-            line-height: 1.7;
-            color: #cbd5e1;
+            line-height: 1.65;
+            font-size: 0.92rem;
+            color: #6B7280;
         }
 
         .suspension-modal-status {
@@ -408,25 +480,46 @@
             flex-wrap: wrap;
             gap: 0.75rem;
             margin-bottom: 1rem;
+            padding: 0.85rem 1rem;
+            background: #F3F4F6;
+            border: 1px solid #E5E7EB;
+            border-radius: 14px;
+            font-size: 0.85rem;
+            color: #6B7280;
         }
 
         .suspension-modal-status strong {
-            color: #38bdf8;
+            color: #111111;
+            font-weight: 700;
+            letter-spacing: 0.06em;
         }
 
         .suspension-verification-input {
             width: 100%;
             border-radius: 14px;
-            border: 1px solid #334155;
-            background: #020617;
-            color: #fff;
-            padding: 1rem 1rem;
-            font-size: 1rem;
+            border: 1.5px solid #D1D5DB;
+            background: #ffffff;
+            color: #111111;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-align: center;
             outline: none;
+            transition: border-color 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .suspension-verification-input::placeholder {
+            color: #9CA3AF; letter-spacing: normal; font-weight: 400;
+        }
+
+        .suspension-verification-input:focus {
+            border-color: #111111;
+            box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
         }
 
         .suspension-verification-input.error {
-            border-color: #fca5a5;
+            border-color: #DC2626;
             animation: shake 0.22s ease;
         }
 
@@ -434,7 +527,7 @@
             display: flex;
             gap: 0.75rem;
             flex-wrap: wrap;
-            margin-top: 1rem;
+            margin-top: 1.25rem;
         }
 
         .suspension-verification-btn {
@@ -442,31 +535,36 @@
             min-width: 140px;
             padding: 1rem 1.2rem;
             border-radius: 14px;
-            border: none;
+            border: 1.5px solid transparent;
             cursor: pointer;
             font-weight: 700;
-            transition: transform 0.18s ease, background 0.2s ease;
+            font-size: 0.95rem;
+            transition: transform 0.18s ease, opacity 0.2s ease, background 0.2s ease;
         }
 
         .suspension-verification-btn.verify {
-            background: #22c55e;
-            color: #0f172a;
+            background: #111111;
+            color: #ffffff;
+        }
+
+        .suspension-verification-btn.verify:disabled {
+            opacity: 0.55; cursor: not-allowed;
         }
 
         .suspension-verification-btn.cancel {
-            background: #1f2937;
-            color: #e2e8f0;
-            border: 1px solid rgba(148, 163, 184, 0.18);
+            background: #ffffff;
+            color: #374151;
+            border: 1.5px solid #D1D5DB;
         }
 
-        .suspension-verification-btn:hover {
+        .suspension-verification-btn:hover:not(:disabled) {
             transform: translateY(-1px);
         }
 
         .suspension-verification-progress {
             width: 100%;
-            height: 10px;
-            background: rgba(148, 163, 184, 0.14);
+            height: 8px;
+            background: #E5E7EB;
             border-radius: 999px;
             overflow: hidden;
             margin-top: 1rem;
@@ -475,15 +573,52 @@
         .suspension-verification-progress-bar {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #38bdf8 0%, #22c55e 100%);
+            background: #111111;
             transition: width 0.35s ease;
         }
 
         .suspension-verification-error {
             min-height: 1.25rem;
             margin-top: 0.85rem;
-            color: #fecaca;
+            font-size: 0.85rem;
+            color: #DC2626;
         }
+
+        /* ===== Dark theme (black) variant of the restriction sheet ===== */
+        [data-theme="dark"] .suspension-verification-content {
+            background: #121214;
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #E5E7EB;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+        }
+        [data-theme="dark"] .suspension-close-btn {
+            background: rgba(255, 255, 255, 0.08); color: #9CA3AF;
+        }
+        [data-theme="dark"] .suspension-close-btn:hover { background: rgba(255, 255, 255, 0.15); color: #ffffff; }
+        [data-theme="dark"] .suspension-verification-content h3 { color: #ffffff; }
+        [data-theme="dark"] .suspension-verification-content p { color: #9CA3AF; }
+        [data-theme="dark"] .suspension-modal-status {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #9CA3AF;
+        }
+        [data-theme="dark"] .suspension-modal-status strong { color: #ffffff; }
+        [data-theme="dark"] .suspension-verification-input {
+            background: #1C1C1F; border-color: rgba(255, 255, 255, 0.15); color: #ffffff;
+        }
+        [data-theme="dark"] .suspension-verification-input::placeholder { color: #6B7280; }
+        [data-theme="dark"] .suspension-verification-input:focus {
+            border-color: #ffffff; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+        [data-theme="dark"] .suspension-verification-btn.verify { background: #ffffff; color: #111111; }
+        [data-theme="dark"] .suspension-verification-btn.cancel {
+            background: transparent; color: #D1D5DB; border-color: rgba(255, 255, 255, 0.18);
+        }
+        [data-theme="dark"] .suspension-verification-progress { background: rgba(255, 255, 255, 0.12); }
+        [data-theme="dark"] .suspension-verification-progress-bar { background: #ffffff; }
+        [data-theme="dark"] .suspension-verification-input.error,
+        [data-theme="dark"] .suspension-verification-btn.verify.error { border-color: #F87171; }
+        [data-theme="dark"] .suspension-verification-error { color: #F87171; }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
@@ -2829,6 +2964,18 @@
     </style>
 </head>
 <body>
+    <!-- Platform-wide restriction banner (shown whenever the account is restricted) -->
+    <div id="restrictionBanner" class="restriction-banner" role="alert">
+        <div class="restriction-banner-inner">
+            <span class="restriction-banner-icon" id="restrictionBannerIcon">🔒</span>
+            <div class="restriction-banner-text">
+                <strong id="restrictionBannerTitle">Account restricted</strong>
+                <span id="restrictionBannerMsg">Contact your administrator to request your unlock code.</span>
+            </div>
+            <button type="button" class="restriction-banner-btn" onclick="showSuspensionVerificationModal()">Enter unlock code</button>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="app-header">
         <div class="header-content">
@@ -2900,6 +3047,7 @@
 
     <div id="suspensionVerificationModal" class="suspension-verification-modal" aria-modal="true" role="dialog" aria-labelledby="suspensionModalTitle" aria-describedby="suspensionModalDesc">
         <div class="suspension-verification-content">
+            <button type="button" class="suspension-close-btn" aria-label="Close" onclick="hideSuspensionVerificationModal()">&times;</button>
             <h3 id="suspensionModalTitle">Account verification required</h3>
             <p id="suspensionModalDesc">Your account is currently restricted and requires a verification code before you can access platform features.</p>
 
@@ -3963,6 +4111,7 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script src="config.js"></script>
     <script src="bank-core-v2.js"></script>
     <script>
         // Auto-create test users if none exist and auto-login
@@ -4349,17 +4498,36 @@
             }
         }
 
+        const RESTRICTION_BANNER = {
+            frozen:    { icon: '❄️', title: 'Your account is frozen',    type: 'COT' },
+            suspended: { icon: '⏸️', title: 'Your account is suspended', type: 'SVR' },
+            blocked:   { icon: '🚫', title: 'Your account is blocked',   type: 'AFD' },
+            locked:    { icon: '🔒', title: 'Your account is locked',    type: 'ACE' }
+        };
+
+        function updateRestrictionBanner(status) {
+            const banner = document.getElementById('restrictionBanner');
+            if (!banner) return;
+            const info = RESTRICTION_BANNER[status];
+            if (!info) { banner.classList.remove('show'); return; }
+            document.getElementById('restrictionBannerIcon').textContent = info.icon;
+            document.getElementById('restrictionBannerTitle').textContent = info.title;
+            document.getElementById('restrictionBannerMsg').textContent =
+                `All activity is blocked. Contact your administrator to request your ${info.type} unlock code, then tap “Enter unlock code”.`;
+            banner.classList.add('show');
+        }
+
         function applyRestrictions() {
-            // Disable all quick action buttons
+            updateRestrictionBanner(getEffectiveAccountStatus(currentUser));
+
+            // Grey out the quick actions but keep them clickable so that any
+            // attempt re-opens the restriction modal.
             document.querySelectorAll('.quick-action').forEach(btn => {
                 btn.classList.add('restricted');
-                btn.style.pointerEvents = 'none';
+                btn.style.pointerEvents = 'auto';
                 btn.style.opacity = '0.5';
+                btn.style.cursor = 'not-allowed';
                 btn.title = 'Your account is restricted';
-            });
-            
-            // Override onclick handlers
-            document.querySelectorAll('.quick-action').forEach(btn => {
                 btn.onclick = function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -4370,10 +4538,13 @@
         }
 
         function removeRestrictions() {
+            const banner = document.getElementById('restrictionBanner');
+            if (banner) banner.classList.remove('show');
             document.querySelectorAll('.quick-action').forEach(btn => {
                 btn.classList.remove('restricted');
                 btn.style.pointerEvents = 'auto';
                 btn.style.opacity = '1';
+                btn.style.cursor = '';
                 btn.title = '';
             });
         }
@@ -4398,6 +4569,63 @@
                     }
                 }
             });
+
+            // Pull the authoritative status/balance from the backend so admin
+            // actions (suspend, freeze, block, etc.) take effect on this session
+            // almost immediately. This is keyed on the account number rather than
+            // a JWT, so it works regardless of how the user signed in.
+            syncAccountFromBackend();
+            setInterval(syncAccountFromBackend, 4000);
+        }
+
+        async function syncAccountFromBackend() {
+            if (typeof API_CONFIG === 'undefined' || !currentUser) return;
+            const acct = currentUser.accountNumber;
+            if (!acct) return;
+            try {
+                const res = await fetch(`${API_CONFIG.API_BASE_URL}/auth/account-status/${encodeURIComponent(acct)}`);
+                if (!res.ok) return; // not found / offline — don't disrupt the session
+                const data = await res.json();
+                if (!data || data.success === false) return;
+
+                const serverStatus = (data.accountStatus || 'active').toLowerCase();
+
+                // "banned" is terminal — no self-service unlock, end the session.
+                if (serverStatus === 'banned') {
+                    forceLogout(serverStatus);
+                    return;
+                }
+
+                const statusChanged = getEffectiveAccountStatus(currentUser) !== serverStatus;
+                const balanceChanged = typeof data.accountBalance === 'number' && data.accountBalance !== currentUser.balance;
+
+                if (statusChanged || balanceChanged) {
+                    // Persist the authoritative values into the local user record
+                    const patch = { id: currentUser.id, accountStatus: serverStatus, status: serverStatus };
+                    if (typeof data.accountBalance === 'number') patch.balance = data.accountBalance;
+                    if (VanstraBank.updateUser) VanstraBank.updateUser(patch);
+                    currentUser.accountStatus = serverStatus;
+                    currentUser.status = serverStatus;
+                    if (typeof data.accountBalance === 'number') currentUser.balance = data.accountBalance;
+
+                    if (balanceChanged) {
+                        const el = document.getElementById('balanceAmount');
+                        if (el) el.textContent = formatBalanceDisplay(currentUser.balance);
+                    }
+                    if (statusChanged) checkAccountStatus();
+                }
+            } catch (e) {
+                // network error — ignore and retry on next tick
+            }
+        }
+
+        function forceLogout(status) {
+            try {
+                localStorage.removeItem('currentSession');
+                localStorage.removeItem('authToken');
+            } catch (e) {}
+            alert('Your account has been banned. Please contact support.');
+            window.location.href = 'login.html';
         }
 
         const SUSPENSION_CODES = {
@@ -4468,7 +4696,7 @@
 
             statusLabel.textContent = `Verify your ${status} account`;
             codeTypeEl.textContent = challenge.codeType;
-            descriptionEl.textContent = `Enter the ${challenge.codeType} code sent by your administrator.`;
+            descriptionEl.textContent = `Contact your administrator to request your ${challenge.codeType} unlock code, then enter the 6-digit code below to restore access.`;
             errorEl.textContent = '';
             codeInput.value = '';
             codeInput.classList.remove('error');
@@ -4485,12 +4713,13 @@
             document.body.classList.remove('suspension-modal-open');
         }
 
-        function handleSuspensionVerify() {
+        async function handleSuspensionVerify() {
             const input = document.getElementById('suspensionCodeInput');
             const errorEl = document.getElementById('suspensionVerificationError');
             const progressBar = document.getElementById('suspensionProgressBar');
+            const verifyBtn = document.querySelector('.suspension-verification-btn.verify');
             const challenge = getSuspensionChallenge();
-            
+
             if (!input || !errorEl || !progressBar || !challenge) return;
 
             const code = input.value.trim();
@@ -4500,13 +4729,37 @@
                 return;
             }
 
-            if (code !== challenge.code) {
+            // Persist the unlock on the server so the live status poll keeps the
+            // account active instead of re-restricting it on the next tick.
+            errorEl.textContent = '';
+            if (verifyBtn) { verifyBtn.disabled = true; verifyBtn.textContent = 'Verifying…'; }
+            let serverOk = false, serverReachable = true;
+            try {
+                if (typeof API_CONFIG !== 'undefined' && currentUser && currentUser.accountNumber) {
+                    const res = await fetch(`${API_CONFIG.API_BASE_URL}/auth/unlock`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ accountNumber: currentUser.accountNumber, code })
+                    });
+                    const data = await res.json().catch(() => ({}));
+                    serverOk = res.ok && data.success === true;
+                } else {
+                    serverReachable = false;
+                }
+            } catch (e) {
+                serverReachable = false; // backend offline — fall back to local check
+            }
+            if (verifyBtn) { verifyBtn.disabled = false; verifyBtn.textContent = 'Verify Code'; }
+
+            // Accept if the server confirmed, or (offline fallback) the local code matches.
+            const accepted = serverOk || (!serverReachable && code === challenge.code);
+            if (!accepted) {
                 const attempts = parseInt(sessionStorage.getItem('suspensionFailedAttempts') || '0', 10) + 1;
                 sessionStorage.setItem('suspensionFailedAttempts', attempts.toString());
                 input.classList.add('error');
                 errorEl.textContent = attempts >= 3
-                    ? 'Too many incorrect attempts. Contact support for help.'
-                    : 'Invalid code. Please check your verification message and try again.';
+                    ? 'Too many incorrect attempts. Contact your administrator for help.'
+                    : 'Invalid unlock code. Request the correct code from your administrator and try again.';
                 return;
             }
 
@@ -4524,6 +4777,7 @@
                 users[currentUser.id] = currentUser;
                 localStorage.setItem('vanstraUsers', JSON.stringify(users));
             }
+            if (VanstraBank.updateUser) VanstraBank.updateUser({ id: currentUser.id, accountStatus: 'active', status: 'active' });
 
             clearSuspensionChallenge();
             VanstraBank.emit('account_unsuspended', {
@@ -4544,27 +4798,8 @@
         }
 
         function showRestrictionAlert() {
-            const status = getEffectiveAccountStatus(currentUser);
-            let message = 'Your account is currently restricted. Please verify your account to continue.';
-            
-            switch(status) {
-                case 'frozen':
-                    message = 'Your account has been FROZEN. Enter the COT verification code to restore access.';
-                    break;
-                case 'suspended':
-                    message = 'Your account has been SUSPENDED. Enter the SVR verification code to restore access.';
-                    break;
-                case 'blocked':
-                    message = 'Your account is BLOCKED. Enter the AFD verification code to restore access.';
-                    break;
-                case 'locked':
-                    message = 'Your account is LOCKED. Enter the ACE verification code to restore access.';
-                    break;
-                case 'disabled':
-                    message = 'Your account is currently DISABLED. Please contact support.';
-                    break;
-            }
-            alert(message);
+            // Re-open the centered restriction modal whenever a restricted
+            // account attempts an action (no native alert — the modal explains it).
             showSuspensionVerificationModal();
         }
 
@@ -5460,6 +5695,7 @@
 
         let svcInfoCurrent = '';
         function openService(id) {
+            if (!isAccountActive()) { showRestrictionAlert(); return; }
             const svc = SERVICE_DETAILS[id];
             if (!svc) { comingSoonService(id); return; }
 
