@@ -1,9 +1,25 @@
 // API Configuration
-// Update this based on your environment
+// ---------------------------------------------------------------------------
+// IMPORTANT: GitHub Pages (and any static host) can only serve the frontend.
+// The Express backend must run somewhere reachable by the browser. When you
+// open the site locally the backend is http://localhost:5000. When the site is
+// hosted online, set PROD_API_BASE_URL below to your deployed backend URL
+// (e.g. https://your-backend.onrender.com/api) — otherwise account creation and
+// login will fail because the browser is trying to reach a backend that isn't
+// there.
+// ---------------------------------------------------------------------------
+
+// 👉 Set this to your deployed backend once you host it (leave blank if local-only):
+const PROD_API_BASE_URL = '';
+
+const _host = (typeof location !== 'undefined' && location.hostname) || '';
+const _isLocal = _host === 'localhost' || _host === '127.0.0.1' || _host === '' || _host === '0.0.0.0';
 
 const API_CONFIG = {
-  // Local development (backend server runs on port 5000)
-  API_BASE_URL: 'http://localhost:5000/api',
+  // Auto-selects: localhost backend when developing, your hosted backend in prod.
+  API_BASE_URL: _isLocal
+    ? 'http://localhost:5000/api'
+    : (PROD_API_BASE_URL || 'http://localhost:5000/api'),
 
   // Master OTPs for development/testing
   MASTER_OTPS: ['271839', '492716', '580317', '634928', '705231'],
